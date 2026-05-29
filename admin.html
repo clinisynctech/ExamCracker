@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ExamCracker — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#1a3c6e;--primary-light:#2558a8;--accent:#f5a623;
+  --green:#22c55e;--red:#ef4444;--bg:#f0f4f8;--card:#fff;
+  --border:#e2e8f0;--shadow:0 4px 20px rgba(26,60,110,.1);
+  --radius:12px;--text:#1a202c;--muted:#64748b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3,.brand{font-family:'Rajdhani',sans-serif;}
+
+/* AUTH GATE */
+#auth-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a3c6e,#2558a8);padding:16px;}
+.auth-card{background:#fff;border-radius:20px;padding:48px 40px;width:100%;max-width:400px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+.auth-card h2{color:var(--primary);margin-bottom:8px;font-size:1.8rem;}
+.auth-card p{color:var(--muted);font-size:.9rem;margin-bottom:28px;}
+.auth-card input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-size:1rem;font-family:'Noto Sans',sans-serif;outline:none;margin-bottom:12px;transition:border .2s;}
+.auth-card input:focus{border-color:var(--primary);}
+.auth-card button{width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Noto Sans',sans-serif;}
+.auth-card button:hover{background:var(--primary-light);}
+.auth-error{color:var(--red);font-size:.85rem;margin-top:8px;display:none;}
+
+/* MAIN LAYOUT */
+#admin-app{display:none;}
+.admin-nav{background:var(--primary);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.brand{color:#fff;font-size:1.5rem;} .brand span{color:var(--accent);}
+.admin-nav button{background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;font-family:'Noto Sans',sans-serif;}
+.admin-nav button:hover{background:rgba(255,255,255,.25);}
+
+.admin-body{display:flex;min-height:calc(100vh - 60px);}
+.sidebar{width:220px;background:#fff;border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;}
+.sidebar-item{padding:12px 24px;cursor:pointer;font-size:.9rem;font-weight:500;display:flex;align-items:center;gap:10px;transition:all .2s;color:var(--muted);border-left:3px solid transparent;}
+.sidebar-item:hover{background:#f8fafc;color:var(--primary);}
+.sidebar-item.active{background:#eff6ff;color:var(--primary);border-left-color:var(--primary);font-weight:600;}
+
+.main-content{flex:1;padding:28px;overflow-y:auto;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.stat-card .s-val{font-family:'Rajdhani',sans-serif;font-size:2.2rem;font-weight:700;color:var(--primary);}
+.stat-card .s-lbl{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+
+.panel-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;}
+.panel-card h3{font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:18px;}
+
+/* FORMS */
+.form-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px;}
+.form-group label{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.form-group input,.form-group select{padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'Noto Sans',sans-serif;outline:none;transition:border .2s;}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary);}
+
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif;transition:all .2s;}
+.btn-primary{background:var(--primary);color:#fff;} .btn-primary:hover{background:var(--primary-light);}
+.btn-success{background:var(--green);color:#fff;}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-accent{background:var(--accent);color:var(--primary);}
+.btn-sm{padding:6px 14px;font-size:.8rem;}
+.btn-copy{background:#f1f5f9;color:var(--primary);}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.88rem;}
+th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:600;color:var(--muted);border-bottom:2px solid var(--border);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:hover td{background:#fafbfc;}
+.status-active{background:#dcfce7;color:#15803d;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;}
+.status-inactive{background:#fee2e2;color:#dc2626;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;}
+
+/* KEY RESULT BOX */
+.key-result{background:#f0fdf4;border:2px solid var(--green);border-radius:10px;padding:16px;margin-top:16px;display:none;}
+.key-result .key-text{font-family:monospace;font-size:1.3rem;font-weight:700;color:var(--primary);letter-spacing:3px;}
+.key-result p{font-size:.85rem;color:var(--muted);margin-top:4px;}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:8px;font-size:.88rem;margin-bottom:16px;display:none;}
+.alert-success{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;}
+.alert-error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;}
+.alert.show{display:block;}
+
+/* SEARCH */
+.search-bar{padding:10px 16px;border:2px solid var(--border);border-radius:8px;width:100%;max-width:300px;font-size:.9rem;font-family:'Noto Sans',sans-serif;outline:none;margin-bottom:16px;}
+.search-bar:focus{border-color:var(--primary);}
+
+/* BADGE */
+.badge-paid{background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;}
+.badge-free{background:#dcfce7;color:#15803d;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;}
+
+@media(max-width:640px){
+  .sidebar{display:none;}
+  .main-content{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="auth-card">
+    <div style="font-size:2.5rem;margin-bottom:12px">🛡️</div>
+    <h2>Admin Login</h2>
+    <p>Enter your admin password to access the panel</p>
+    <input type="password" id="admin-pass" placeholder="Admin Password" onkeydown="if(event.key==='Enter')adminLogin()"/>
+    <button onclick="adminLogin()">Login to Admin Panel</button>
+    <div class="auth-error" id="auth-error">❌ Incorrect password</div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <div class="admin-nav">
+    <div class="brand">Exam<span>Cracker</span> <span style="font-size:1rem;color:rgba(255,255,255,.6);font-family:'Noto Sans',sans-serif;font-weight:400">Admin</span></div>
+    <button onclick="adminLogout()">Logout</button>
+  </div>
+
+  <div class="admin-body">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-item active" onclick="switchTab('tab-dashboard',this)">📊 Dashboard</div>
+      <div class="sidebar-item" onclick="switchTab('tab-keys',this)">🔑 Manage Keys</div>
+      <div class="sidebar-item" onclick="switchTab('tab-generate',this)">➕ Generate Key</div>
+      <div class="sidebar-item" onclick="switchTab('tab-results',this)">📋 Results</div>
+      <div class="sidebar-item" onclick="switchTab('tab-setup',this)">⚙️ Setup Guide</div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" class="tab-panel active">
+        <h2 style="font-size:1.6rem;color:var(--primary);margin-bottom:20px">Dashboard Overview</h2>
+        <div class="stats-row">
+          <div class="stat-card"><div class="s-val" id="stat-total-keys">0</div><div class="s-lbl">Total Keys</div></div>
+          <div class="stat-card"><div class="s-val" id="stat-active-keys">0</div><div class="s-lbl">Active Keys</div></div>
+          <div class="stat-card"><div class="s-val" id="stat-total-results">0</div><div class="s-lbl">Tests Taken</div></div>
+          <div class="stat-card"><div class="s-val" id="stat-revenue">₹0</div><div class="s-lbl">Est. Revenue</div></div>
+        </div>
+
+        <div class="panel-card">
+          <h3>⚡ Quick Actions</h3>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="switchTab('tab-generate',document.querySelector('[onclick*=tab-generate]'))">➕ Generate New Key</button>
+            <button class="btn btn-accent" onclick="exportKeys()">📥 Export Keys CSV</button>
+            <button class="btn btn-success" onclick="exportResults()">📊 Export Results CSV</button>
+            <button class="btn" style="background:#f1f5f9" onclick="loadAllData()">🔄 Refresh Data</button>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>📈 Recent Activity</h3>
+          <div class="table-wrap">
+            <table id="recent-table">
+              <thead><tr><th>Key</th><th>Student</th><th>Test</th><th>Score</th><th>Date</th></tr></thead>
+              <tbody id="recent-tbody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">No data yet — connect Google Sheets</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEYS TAB -->
+      <div id="tab-keys" class="tab-panel">
+        <h2 style="font-size:1.6rem;color:var(--primary);margin-bottom:20px">Manage Access Keys</h2>
+        <div class="alert alert-success" id="keys-alert"></div>
+
+        <div class="panel-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+            <h3 style="margin:0">All Keys</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input class="search-bar" style="margin:0;width:220px" id="key-search" placeholder="Search key or name..." oninput="filterKeys()"/>
+              <button class="btn btn-accent" onclick="exportKeys()">📥 Export CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Key</th><th>Student Name</th><th>Status</th><th>Purchase Date</th><th>Attempts</th><th>Expiry</th><th>Actions</th></tr></thead>
+              <tbody id="keys-tbody">
+                <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px">Loading... (Connect Google Sheets to see live data)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Demo keys table (local) -->
+        <div class="panel-card">
+          <h3>🧪 Demo Keys (Built-in for Testing)</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">These keys work without Google Sheets connection for testing.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Key</th><th>Name</th><th>Plan</th><th>Copy</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code style="font-size:.9rem;font-weight:700">SSC2024DEMO</code></td>
+                  <td>Demo Student</td>
+                  <td><span class="badge-paid">PAID</span></td>
+                  <td><button class="btn btn-copy btn-sm" onclick="copyText('SSC2024DEMO')">Copy</button></td>
+                </tr>
+                <tr>
+                  <td><code style="font-size:.9rem;font-weight:700">EXAMCRACKER49</code></td>
+                  <td>Paid User</td>
+                  <td><span class="badge-paid">PAID</span></td>
+                  <td><button class="btn btn-copy btn-sm" onclick="copyText('EXAMCRACKER49')">Copy</button></td>
+                </tr>
+                <tr>
+                  <td><code style="font-size:.9rem;font-weight:700">TESTKEY001</code></td>
+                  <td>Test Student</td>
+                  <td><span class="badge-paid">PAID</span></td>
+                  <td><button class="btn btn-copy btn-sm" onclick="copyText('TESTKEY001')">Copy</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERATE KEY TAB -->
+      <div id="tab-generate" class="tab-panel">
+        <h2 style="font-size:1.6rem;color:var(--primary);margin-bottom:20px">Generate Access Key</h2>
+
+        <div class="panel-card">
+          <h3>➕ Generate Single Key</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:20px">Generate a key after confirming payment on WhatsApp. Enter the student's name and send the key.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student Name</label>
+              <input type="text" id="gen-name" placeholder="e.g. Rahul Sharma"/>
+            </div>
+            <div class="form-group" style="max-width:200px">
+              <label>Key Prefix (optional)</label>
+              <input type="text" id="gen-prefix" placeholder="e.g. EC" value="EC" maxlength="4" style="text-transform:uppercase"/>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="generateKeyLocal()">🔑 Generate Key</button>
+
+          <div class="key-result" id="key-result-box">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+              <div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Generated Key</div>
+                <div class="key-text" id="generated-key-display">—</div>
+                <p id="generated-key-info"></p>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-copy" onclick="copyGeneratedKey()">📋 Copy Key</button>
+                <button class="btn btn-success" onclick="sendViaWhatsApp()">📲 Send on WhatsApp</button>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:12px;background:#fff;border-radius:8px;font-size:.82rem;color:var(--muted)">
+              <strong>WhatsApp Message Template:</strong><br/>
+              <span id="wa-template-text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>📦 Bulk Generate Keys</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">Generate multiple keys at once (e.g. before a promotion or batch).</p>
+          <div class="form-row">
+            <div class="form-group" style="max-width:160px">
+              <label>Number of Keys</label>
+              <input type="number" id="bulk-count" value="10" min="1" max="100"/>
+            </div>
+            <div class="form-group" style="max-width:160px">
+              <label>Prefix</label>
+              <input type="text" id="bulk-prefix" value="EC" maxlength="4" style="text-transform:uppercase"/>
+            </div>
+          </div>
+          <button class="btn btn-accent" onclick="bulkGenerateLocal()">📦 Generate Bulk Keys</button>
+          <div id="bulk-result" style="display:none;margin-top:16px">
+            <div class="panel-card" style="background:#f8fafc;box-shadow:none">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <strong>Generated Keys</strong>
+                <button class="btn btn-copy btn-sm" onclick="copyBulkKeys()">Copy All</button>
+              </div>
+              <div id="bulk-keys-list" style="font-family:monospace;font-size:.88rem;line-height:2;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS TAB -->
+      <div id="tab-results" class="tab-panel">
+        <h2 style="font-size:1.6rem;color:var(--primary);margin-bottom:20px">Student Results</h2>
+
+        <div class="panel-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+            <h3 style="margin:0">All Test Results</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input class="search-bar" style="margin:0;width:200px" id="result-search" placeholder="Search by key..." oninput="filterResults()"/>
+              <button class="btn btn-success btn-sm" onclick="exportResults()">📊 Export CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Key</th><th>Test Name</th><th>Date</th><th>Score</th><th>Correct</th><th>Wrong</th><th>Accuracy</th><th>Time</th></tr></thead>
+              <tbody id="results-tbody">
+                <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:24px">No results yet. Connect Google Sheets to see live data.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Local Results (from localStorage) -->
+        <div class="panel-card">
+          <h3>💾 Local Saved Results (from this device)</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:12px">Results stored in browser localStorage. These are from test runs on this device.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Test Name</th><th>Date</th><th>Score</th><th>Correct</th><th>Wrong</th><th>Accuracy</th></tr></thead>
+              <tbody id="local-results-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETUP GUIDE TAB -->
+      <div id="tab-setup" class="tab-panel">
+        <h2 style="font-size:1.6rem;color:var(--primary);margin-bottom:20px">⚙️ Setup Guide</h2>
+
+        <div class="panel-card">
+          <h3>Step 1 — Create Google Sheet</h3>
+          <p style="color:var(--muted);line-height:1.8;font-size:.9rem;">
+            1. Go to <a href="https://sheets.google.com" target="_blank" style="color:var(--primary)">sheets.google.com</a> and create a new spreadsheet<br/>
+            2. Name it: <strong>ExamCracker Database</strong><br/>
+            3. Create 3 sheets (tabs at bottom):<br/>
+            &nbsp;&nbsp;→ <strong>Questions</strong> — stores all question data<br/>
+            &nbsp;&nbsp;→ <strong>Keys</strong> — stores access keys<br/>
+            &nbsp;&nbsp;→ <strong>Results</strong> — stores student results<br/>
+            4. Copy the Spreadsheet ID from the URL (the long string between /d/ and /edit)
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <h3>Step 2 — Sheet Column Headers</h3>
+          <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Add these exact headers in Row 1 of each sheet:</p>
+
+          <p style="font-weight:600;margin-bottom:6px">Questions Sheet — Row 1:</p>
+          <code style="background:#f1f5f9;padding:8px 12px;border-radius:6px;font-size:.8rem;display:block;margin-bottom:16px">Question_ID | Subject | Year | Question | Option_A | Option_B | Option_C | Option_D | Correct_Answer | Explanation | Difficulty | Paper</code>
+          <p style="color:var(--muted);font-size:.8rem;margin-bottom:16px">Note: Correct_Answer = 0 for A, 1 for B, 2 for C, 3 for D</p>
+
+          <p style="font-weight:600;margin-bottom:6px">Keys Sheet — Row 1:</p>
+          <code style="background:#f1f5f9;padding:8px 12px;border-radius:6px;font-size:.8rem;display:block;margin-bottom:16px">Key | Status | Purchase_Date | Student_Name | Attempts | Expiry_Date</code>
+
+          <p style="font-weight:600;margin-bottom:6px">Results Sheet — Row 1:</p>
+          <code style="background:#f1f5f9;padding:8px 12px;border-radius:6px;font-size:.8rem;display:block">Key | Test_Name | Date | Total_Questions | Correct | Wrong | Unattempted | Score | Percentage | Time_Taken</code>
+        </div>
+
+        <div class="panel-card">
+          <h3>Step 3 — Deploy Google Apps Script</h3>
+          <p style="color:var(--muted);line-height:1.8;font-size:.9rem;">
+            1. Go to <a href="https://script.google.com" target="_blank" style="color:var(--primary)">script.google.com</a> → New Project<br/>
+            2. Paste the entire <strong>Code.gs</strong> file into the editor<br/>
+            3. Replace <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px">YOUR_SHEET_ID_HERE</code> with your actual Sheet ID<br/>
+            4. Click <strong>Deploy → New Deployment → Web App</strong><br/>
+            5. Set: Execute as <strong>Me</strong>, Who has access: <strong>Anyone</strong><br/>
+            6. Click Deploy, copy the Web App URL<br/>
+            7. Paste that URL in <strong>index.html</strong> as the value of <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px">APPS_SCRIPT_URL</code>
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <h3>Step 4 — Connect Website to Apps Script</h3>
+          <p style="color:var(--muted);line-height:1.8;font-size:.9rem;">
+            In <strong>index.html</strong>, find this line near the top of the &lt;script&gt; section:<br/>
+            <code style="background:#f1f5f9;padding:6px 12px;border-radius:6px;display:block;margin:8px 0">const APPS_SCRIPT_URL = '';</code>
+            Replace the empty string with your deployed Web App URL:<br/>
+            <code style="background:#f1f5f9;padding:6px 12px;border-radius:6px;display:block;margin:8px 0">const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR.../exec';</code>
+            Once set, key validation and result saving will use Google Sheets live.
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <h3>Step 5 — Deploy on GitHub Pages</h3>
+          <p style="color:var(--muted);line-height:1.8;font-size:.9rem;">
+            1. Create a free GitHub account at <a href="https://github.com" target="_blank" style="color:var(--primary)">github.com</a><br/>
+            2. Create a new repository named: <strong>examcracker</strong><br/>
+            3. Upload your files: <strong>index.html</strong> and <strong>admin.html</strong> + your Image1.png, Image2.png, Image3.png<br/>
+            4. Go to repository Settings → Pages → Branch: main → Save<br/>
+            5. Your site will be live at: <strong>https://yourusername.github.io/examcracker</strong>
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <h3>Step 6 — Your WhatsApp Payment Flow</h3>
+          <p style="color:var(--muted);line-height:1.8;font-size:.9rem;">
+            1. Student clicks <strong>Subscribe ₹49</strong> on the website<br/>
+            2. Modal shows your UPI ID and WhatsApp number<br/>
+            3. Student pays ₹49 → sends screenshot on WhatsApp<br/>
+            4. You confirm payment → open this <strong>admin.html</strong><br/>
+            5. Go to <strong>Generate Key</strong> → enter student name → click Generate<br/>
+            6. Copy the key → send on WhatsApp<br/>
+            7. Student enters key on website → all papers unlock ✅
+          </p>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-top:12px">
+            <strong style="color:#15803d">⚡ Update these in index.html before going live:</strong>
+            <ul style="margin-top:8px;padding-left:20px;color:var(--muted);font-size:.85rem;line-height:2">
+              <li>UPI ID in the subscribe modal</li>
+              <li>WhatsApp phone number in the subscribe modal</li>
+              <li>APPS_SCRIPT_URL variable</li>
+              <li>Replace Image1.png, Image2.png, Image3.png with real images</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /admin-body -->
+</div><!-- /admin-app -->
+
+<script>
+// ── ADMIN PASSWORD (change this) ───────────────────────────────
+const ADMIN_PASSWORD = 'examcracker2024';
+
+// ── AUTH ───────────────────────────────────────────────────────
+function adminLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  if(pass === ADMIN_PASSWORD) {
+    document.getElementById('auth-gate').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    loadAllData();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+function adminLogout() {
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('admin-app').style.display = 'none';
+  document.getElementById('admin-pass').value = '';
+}
+document.getElementById('admin-pass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
+
+// ── TAB SWITCHING ──────────────────────────────────────────────
+function switchTab(tabId, el) {
+  document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if(el) el.classList.add('active');
+  if(tabId === 'tab-results') loadLocalResults();
+}
+
+// ── LOAD ALL DATA ──────────────────────────────────────────────
+function loadAllData() {
+  loadLocalResults();
+  updateDashboardStats();
+}
+
+function updateDashboardStats() {
+  const localResults = JSON.parse(localStorage.getItem('ec_results')||'[]');
+  const localKeys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  document.getElementById('stat-total-keys').textContent = localKeys.length;
+  document.getElementById('stat-active-keys').textContent = localKeys.filter(k=>k.status==='Active').length;
+  document.getElementById('stat-total-results').textContent = localResults.length;
+  document.getElementById('stat-revenue').textContent = '₹'+(localKeys.length * 49);
+
+  // Recent activity
+  const tbody = document.getElementById('recent-tbody');
+  if(localResults.length > 0) {
+    tbody.innerHTML = localResults.slice(-10).reverse().map((r,i) => `
+      <tr>
+        <td>trial</td>
+        <td>—</td>
+        <td>${r.testName||'—'}</td>
+        <td><strong>${r.score||0}</strong>/200</td>
+        <td>${r.date||'—'}</td>
+      </tr>`).join('');
+  }
+}
+
+// ── LOCAL RESULTS ──────────────────────────────────────────────
+function loadLocalResults() {
+  const results = JSON.parse(localStorage.getItem('ec_results')||'[]');
+  const tbody = document.getElementById('local-results-tbody');
+  if(results.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No results yet — attempt a test first</td></tr>';
+    return;
+  }
+  tbody.innerHTML = results.map((r,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td>${r.testName||'—'}</td>
+      <td>${r.date||'—'}</td>
+      <td><strong>${r.score||0}</strong>/200</td>
+      <td style="color:var(--green)">${r.correct||0}</td>
+      <td style="color:var(--red)">${r.wrong||0}</td>
+      <td>${r.accuracy||0}%</td>
+    </tr>`).join('');
+}
+
+// ── GENERATE KEY (LOCAL) ───────────────────────────────────────
+let lastGeneratedKey = '';
+
+function generateKeyLocal() {
+  const name = document.getElementById('gen-name').value.trim() || 'Student';
+  const prefix = document.getElementById('gen-prefix').value.trim().toUpperCase() || 'EC';
+  const key = prefix + Math.random().toString(36).substr(2,5).toUpperCase() + Math.floor(Math.random()*100);
+
+  // Save locally
+  const keys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  const expiry = new Date(); expiry.setMonth(expiry.getMonth()+6);
+  keys.push({key, name, status:'Active', date: new Date().toLocaleDateString('en-IN'), attempts:0, expiry: expiry.toLocaleDateString('en-IN')});
+  localStorage.setItem('ec_admin_keys', JSON.stringify(keys));
+  lastGeneratedKey = key;
+
+  // Display
+  document.getElementById('generated-key-display').textContent = key;
+  document.getElementById('generated-key-info').textContent = `For: ${name} · Expires: ${expiry.toLocaleDateString('en-IN')}`;
+  document.getElementById('wa-template-text').textContent = `Hi ${name}! Here is your ExamCracker access key: ${key}\n\nSteps:\n1. Go to examcracker.github.io\n2. Click "Enter Key"\n3. Enter: ${key}\n4. All papers will unlock!\n\nAll the best! 🎯`;
+  document.getElementById('key-result-box').style.display = 'block';
+  updateDashboardStats();
+}
+
+function copyGeneratedKey() {
+  navigator.clipboard.writeText(lastGeneratedKey).then(() => alert('Key copied: ' + lastGeneratedKey));
+}
+
+function sendViaWhatsApp() {
+  const name = document.getElementById('gen-name').value.trim() || 'Student';
+  const msg = encodeURIComponent(`Hi ${name}! Here is your ExamCracker access key: *${lastGeneratedKey}*\n\nSteps:\n1. Go to your ExamCracker website\n2. Click "Enter Key"\n3. Enter: *${lastGeneratedKey}*\n4. All 4 papers will unlock! 🎉\n\nAll the best! 🎯`);
+  window.open('https://wa.me/?text='+msg, '_blank');
+}
+
+// ── BULK GENERATE ──────────────────────────────────────────────
+let bulkKeys = [];
+function bulkGenerateLocal() {
+  const count = parseInt(document.getElementById('bulk-count').value) || 10;
+  const prefix = document.getElementById('bulk-prefix').value.trim().toUpperCase() || 'EC';
+  bulkKeys = [];
+  const existingKeys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  const expiry = new Date(); expiry.setMonth(expiry.getMonth()+6);
+
+  for(let i=0; i<count; i++) {
+    const key = prefix + Math.random().toString(36).substr(2,5).toUpperCase() + Math.floor(Math.random()*100);
+    bulkKeys.push(key);
+    existingKeys.push({key, name:'Student', status:'Active', date: new Date().toLocaleDateString('en-IN'), attempts:0, expiry: expiry.toLocaleDateString('en-IN')});
+  }
+  localStorage.setItem('ec_admin_keys', JSON.stringify(existingKeys));
+  document.getElementById('bulk-keys-list').innerHTML = bulkKeys.map(k => `<div>${k}</div>`).join('');
+  document.getElementById('bulk-result').style.display = 'block';
+  updateDashboardStats();
+}
+function copyBulkKeys() {
+  navigator.clipboard.writeText(bulkKeys.join('\n')).then(() => alert('All '+bulkKeys.length+' keys copied!'));
+}
+
+// ── FILTER ────────────────────────────────────────────────────
+function filterKeys() {
+  const q = document.getElementById('key-search').value.toLowerCase();
+  const keys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  renderKeysTable(keys.filter(k => k.key.toLowerCase().includes(q) || k.name.toLowerCase().includes(q)));
+}
+function filterResults() { loadLocalResults(); }
+
+function renderKeysTable(keys) {
+  const tbody = document.getElementById('keys-tbody');
+  if(!keys.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">No keys found</td></tr>'; return; }
+  tbody.innerHTML = keys.map((k,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><code style="font-weight:700">${k.key}</code></td>
+      <td>${k.name}</td>
+      <td><span class="status-${k.status==='Active'?'active':'inactive'}">${k.status}</span></td>
+      <td>${k.date||'—'}</td>
+      <td>${k.attempts||0}</td>
+      <td>${k.expiry||'—'}</td>
+      <td>
+        <button class="btn btn-copy btn-sm" onclick="copyText('${k.key}')">Copy</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="deactivateKey('${k.key}')">Deactivate</button>
+      </td>
+    </tr>`).join('');
+}
+
+function deactivateKey(key) {
+  if(!confirm('Deactivate key: '+key+'?')) return;
+  const keys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  const idx = keys.findIndex(k=>k.key===key);
+  if(idx>=0) { keys[idx].status='Inactive'; localStorage.setItem('ec_admin_keys', JSON.stringify(keys)); }
+  filterKeys();
+}
+
+// ── EXPORT CSV ─────────────────────────────────────────────────
+function exportKeys() {
+  const keys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  if(!keys.length) { alert('No keys to export.'); return; }
+  const csv = 'Key,Student Name,Status,Purchase Date,Attempts,Expiry\n' +
+    keys.map(k => `${k.key},${k.name},${k.status},${k.date||''},${k.attempts||0},${k.expiry||''}`).join('\n');
+  downloadCSV(csv, 'examcracker_keys.csv');
+}
+function exportResults() {
+  const results = JSON.parse(localStorage.getItem('ec_results')||'[]');
+  if(!results.length) { alert('No results to export.'); return; }
+  const csv = 'Test Name,Date,Score,Correct,Wrong,Skip,Accuracy,Time\n' +
+    results.map(r => `${r.testName},${r.date},${r.score},${r.correct},${r.wrong},${r.skip},${r.accuracy}%,${r.time}`).join('\n');
+  downloadCSV(csv, 'examcracker_results.csv');
+}
+function downloadCSV(csv, filename) {
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── UTILS ──────────────────────────────────────────────────────
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Copied: ' + text);
+  });
+}
+
+window.onload = () => {
+  // Load keys into table on startup if any exist
+  const keys = JSON.parse(localStorage.getItem('ec_admin_keys')||'[]');
+  if(keys.length) renderKeysTable(keys);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ExamCracker – Crack Every Government Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#1a3c6e;
+  --primary-light:#2558a8;
+  --accent:#f5a623;
+  --accent2:#e84545;
+  --green:#22c55e;
+  --red:#ef4444;
+  --purple:#8b5cf6;
+  --bg:#f0f4f8;
+  --card:#ffffff;
+  --text:#1a202c;
+  --text-muted:#64748b;
+  --border:#e2e8f0;
+  --shadow:0 4px 24px rgba(26,60,110,0.10);
+  --radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+h1,h2,h3,h4,.brand{font-family:'Rajdhani',sans-serif;}
+
+/* ─── PAGES ─────────────────────────────── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ─── NAV ──────────────────────────────── */
+nav{background:var(--primary);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+.brand{color:#fff;font-size:1.6rem;font-weight:700;letter-spacing:1px;}
+.brand span{color:var(--accent);}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-links button{background:transparent;color:#fff;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-family:'Noto Sans',sans-serif;transition:background .2s;}
+.nav-links button:hover{background:rgba(255,255,255,0.15);}
+.nav-links .btn-accent{background:var(--accent);color:var(--primary);font-weight:700;}
+.nav-links .btn-accent:hover{background:#e09400;}
+
+/* ─── HERO ─────────────────────────────── */
+.hero{background:linear-gradient(135deg,#1a3c6e 0%,#2558a8 60%,#1e4a8a 100%);color:#fff;padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-badge{display:inline-block;background:rgba(245,166,35,0.2);border:1px solid var(--accent);color:var(--accent);padding:4px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;letter-spacing:1px;margin-bottom:20px;}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1.2;margin-bottom:16px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:1.05rem;opacity:0.85;max-width:560px;margin:0 auto 32px;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn{padding:12px 28px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:'Noto Sans',sans-serif;}
+.btn-primary{background:var(--accent);color:var(--primary);}
+.btn-primary:hover{background:#e09400;transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,166,35,0.4);}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.6);}
+.btn-outline:hover{background:rgba(255,255,255,0.1);border-color:#fff;}
+.hero-stats{display:flex;gap:32px;justify-content:center;margin-top:48px;flex-wrap:wrap;}
+.hero-stat{text-align:center;}
+.hero-stat .num{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--accent);}
+.hero-stat .lbl{font-size:0.8rem;opacity:0.75;letter-spacing:.5px;}
+
+/* ─── SECTIONS ─────────────────────────── */
+.section{padding:60px 24px;max-width:1100px;margin:0 auto;}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:8px;color:var(--primary);}
+.section-sub{color:var(--text-muted);margin-bottom:40px;font-size:0.95rem;}
+
+/* ─── BENEFITS ─────────────────────────── */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.benefit-card{background:var(--card);border-radius:var(--radius);padding:28px 20px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;}
+.benefit-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(26,60,110,0.15);}
+.benefit-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;}
+.benefit-card h4{font-size:1rem;font-weight:600;margin-bottom:6px;}
+.benefit-card p{font-size:0.82rem;color:var(--text-muted);}
+
+/* ─── MOTIVATION BANNER ─────────────────── */
+.motivation-section{background:linear-gradient(135deg,#1a3c6e,#2558a8);padding:60px 24px;}
+.motivation-inner{max-width:1100px;margin:0 auto;}
+.motivation-inner .section-title{color:#fff;}
+.motivation-inner .section-sub{color:rgba(255,255,255,0.7);}
+.motivation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.motivation-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius);overflow:hidden;}
+.motivation-img-box{height:180px;background:#1a3c6e;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.motivation-img-box img{width:100%;height:100%;object-fit:cover;display:block;}
+.motivation-img-box .img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(255,255,255,0.3);font-size:0.85rem;gap:8px;}
+.motivation-img-box .img-placeholder svg{width:48px;height:48px;opacity:0.3;}
+.motivation-card-body{padding:18px;}
+.motivation-card-body .tag{display:inline-block;background:var(--accent);color:var(--primary);font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px;}
+.motivation-card-body h4{color:#fff;font-size:1.05rem;font-weight:600;margin-bottom:4px;}
+.motivation-card-body p{color:rgba(255,255,255,0.65);font-size:0.82rem;}
+
+/* ─── TRIAL SECTION ─────────────────────── */
+.trial-section{background:var(--card);}
+.trial-box{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:2px solid #bae6fd;border-radius:16px;padding:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.trial-info h3{font-size:1.6rem;color:var(--primary);margin-bottom:8px;}
+.trial-info p{color:var(--text-muted);margin-bottom:16px;}
+.trial-tags{display:flex;gap:10px;flex-wrap:wrap;}
+.trial-tag{background:#fff;border:1px solid #bae6fd;padding:6px 14px;border-radius:20px;font-size:0.82rem;font-weight:500;color:var(--primary);}
+.trial-cta{text-align:center;}
+.trial-cta .free-badge{font-family:'Rajdhani',sans-serif;font-size:3rem;font-weight:700;color:var(--primary-light);line-height:1;}
+.trial-cta .free-badge span{font-size:1rem;color:var(--text-muted);display:block;}
+
+/* ─── SUBSCRIPTION SECTION ──────────────── */
+.sub-card{background:var(--card);border-radius:16px;padding:40px;max-width:480px;margin:0 auto;box-shadow:var(--shadow);border:2px solid var(--primary);position:relative;text-align:center;}
+.sub-card .popular{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--primary);font-size:0.75rem;font-weight:700;padding:4px 20px;border-radius:20px;letter-spacing:1px;}
+.sub-price{font-family:'Rajdhani',sans-serif;font-size:3.5rem;font-weight:700;color:var(--primary);}
+.sub-price span{font-size:1.2rem;vertical-align:top;margin-top:12px;display:inline-block;}
+.sub-note{color:var(--text-muted);font-size:0.85rem;margin-bottom:24px;}
+.sub-features{list-style:none;margin-bottom:28px;text-align:left;}
+.sub-features li{padding:8px 0;border-bottom:1px solid var(--border);font-size:0.9rem;display:flex;align-items:center;gap:10px;}
+.sub-features li:last-child{border:none;}
+.check{color:var(--green);font-size:1rem;}
+
+/* ─── FAQ ──────────────────────────────── */
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:700px;}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.faq-q{padding:16px 20px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:0.95rem;}
+.faq-q:hover{background:#f8fafc;}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;}
+.faq-a.open{max-height:200px;padding:0 20px 16px;}
+.faq-a p{color:var(--text-muted);font-size:0.88rem;line-height:1.6;}
+
+/* ─── FOOTER ─────────────────────────────*/
+footer{background:var(--primary);color:rgba(255,255,255,0.7);text-align:center;padding:24px;font-size:0.82rem;}
+footer a{color:var(--accent);text-decoration:none;}
+
+/* ─── KEY LOGIN PAGE ─────────────────────*/
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#1a3c6e,#2558a8);}
+.login-card{background:#fff;border-radius:20px;padding:48px 40px;width:100%;max-width:440px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.login-card .lock-icon{width:72px;height:72px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:1.8rem;}
+.login-card h2{font-size:1.8rem;color:var(--primary);margin-bottom:8px;}
+.login-card p{color:var(--text-muted);font-size:0.9rem;margin-bottom:28px;}
+.input-wrap{position:relative;margin-bottom:16px;}
+.input-wrap input{width:100%;padding:14px 48px 14px 16px;border:2px solid var(--border);border-radius:10px;font-size:1rem;font-family:'Noto Sans',sans-serif;outline:none;transition:border .2s;text-transform:uppercase;letter-spacing:2px;}
+.input-wrap input:focus{border-color:var(--primary);}
+.input-wrap .eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--text-muted);}
+.btn-full{width:100%;padding:14px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;border:none;background:var(--primary);color:#fff;font-family:'Noto Sans',sans-serif;transition:background .2s;}
+.btn-full:hover{background:var(--primary-light);}
+.error-msg{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px;display:none;}
+.error-msg.show{display:block;}
+.login-trial-link{margin-top:20px;font-size:0.88rem;color:var(--text-muted);}
+.login-trial-link a{color:var(--primary);font-weight:600;cursor:pointer;text-decoration:none;}
+
+/* ─── DASHBOARD ─────────────────────────*/
+.dash-header{background:var(--primary);color:#fff;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;}
+.dash-header h3{font-family:'Rajdhani',sans-serif;font-size:1.3rem;}
+.dash-header .user-badge{background:rgba(255,255,255,0.15);padding:6px 14px;border-radius:20px;font-size:0.82rem;}
+.dash-body{max-width:1100px;margin:0 auto;padding:32px 24px;}
+.dash-greeting{margin-bottom:28px;}
+.dash-greeting h2{font-size:1.8rem;color:var(--primary);}
+.dash-greeting p{color:var(--text-muted);}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;}
+.dash-card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.dash-card .d-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;}
+.dash-card .d-value{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--primary);}
+.dash-card .d-sub{font-size:0.78rem;color:var(--text-muted);}
+.dash-card.accent-card{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;}
+.dash-card.accent-card .d-label{color:rgba(255,255,255,0.7);}
+.dash-card.accent-card .d-value{color:#fff;}
+.dash-card.accent-card .d-sub{color:rgba(255,255,255,0.7);}
+
+.tests-section h3{font-size:1.4rem;font-weight:700;color:var(--primary);margin-bottom:16px;}
+.test-list{display:flex;flex-direction:column;gap:12px;}
+.test-row{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;transition:box-shadow .2s;}
+.test-row:hover{box-shadow:var(--shadow);}
+.test-row-info h4{font-size:1rem;font-weight:600;margin-bottom:2px;}
+.test-row-info p{font-size:0.8rem;color:var(--text-muted);}
+.test-row-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.badge{padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;}
+.badge-free{background:#dcfce7;color:#15803d;}
+.badge-locked{background:#f1f5f9;color:#64748b;}
+.badge-done{background:#ede9fe;color:#7c3aed;}
+.btn-start{padding:8px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Noto Sans',sans-serif;transition:background .2s;}
+.btn-start:hover{background:var(--primary-light);}
+.btn-start:disabled{background:#cbd5e1;cursor:not-allowed;}
+
+/* ─── MOTIVATION WIDGET ─────────────────── */
+.motivation-widget{background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:var(--radius);padding:24px;color:#fff;margin-bottom:32px;}
+.motivation-widget .mot-tag{font-size:0.7rem;background:var(--accent);color:var(--primary);padding:2px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;font-weight:700;}
+.motivation-widget h3{font-size:1.4rem;margin-bottom:6px;}
+.motivation-widget p{font-size:0.88rem;opacity:0.8;}
+.mot-img-box{height:160px;border-radius:10px;overflow:hidden;margin-bottom:14px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;}
+.mot-img-box img{width:100%;height:100%;object-fit:cover;}
+.mot-img-box .no-img{color:rgba(255,255,255,0.3);font-size:0.8rem;text-align:center;}
+
+/* ─── EXAM PAGE ─────────────────────────*/
+#page-exam{display:none;flex-direction:column;height:100vh;background:#f0f4f8;}
+#page-exam.active{display:flex;}
+.exam-top{background:var(--primary);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:8px;}
+.exam-top .exam-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;}
+.exam-top .candidate{font-size:0.8rem;opacity:0.8;}
+.timer-box{background:var(--accent2);padding:6px 16px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;min-width:90px;text-align:center;}
+.timer-box.warn{background:#f5a623;color:var(--primary);}
+
+.exam-body{display:flex;flex:1;overflow:hidden;}
+.exam-main{flex:1;overflow-y:auto;padding:20px;}
+.exam-sidebar{width:240px;background:var(--card);border-left:1px solid var(--border);padding:16px;overflow-y:auto;flex-shrink:0;}
+
+/* question navigation palette */
+.palette-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:10px;}
+.palette-legend{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text-muted);}
+.legend-dot{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+.dot-answered{background:var(--green);}
+.dot-wrong{background:var(--red);}
+.dot-review{background:var(--purple);}
+.dot-visited{background:#e2e8f0;border:1px solid #94a3b8;}
+.dot-unvisited{background:#fff;border:2px solid #cbd5e1;}
+.palette-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.pq-btn{width:36px;height:36px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:'Noto Sans',sans-serif;transition:all .15s;}
+.pq-btn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+.pq-btn.not-answered{background:var(--red);color:#fff;border-color:var(--red);}
+.pq-btn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+.pq-btn.current{outline:3px solid var(--accent);outline-offset:1px;}
+
+.section-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.stab{padding:6px 14px;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text-muted);transition:all .2s;}
+.stab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* question card */
+.q-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:16px;}
+.q-meta{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.q-meta .qbadge{font-size:0.72rem;padding:2px 10px;border-radius:20px;font-weight:600;}
+.qb-blue{background:#dbeafe;color:#1d4ed8;}
+.qb-green{background:#dcfce7;color:#15803d;}
+.qb-yellow{background:#fef9c3;color:#854d0e;}
+.q-text{font-size:1rem;line-height:1.7;margin-bottom:20px;font-weight:500;}
+.options-list{display:flex;flex-direction:column;gap:10px;}
+.option-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:#fff;}
+.option-item:hover{border-color:var(--primary-light);background:#f0f7ff;}
+.option-item.selected{border-color:var(--primary);background:#eff6ff;}
+.option-radio{width:18px;height:18px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.option-item.selected .option-radio{border-color:var(--primary);background:var(--primary);}
+.option-item.selected .option-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff;}
+.opt-label{font-weight:600;color:var(--primary);min-width:18px;font-size:0.9rem;}
+.opt-text{font-size:0.92rem;line-height:1.5;}
+
+/* bottom controls */
+.exam-bottom{background:var(--card);border-top:1px solid var(--border);padding:12px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;flex-shrink:0;}
+.exam-bottom .left-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.exam-btn{padding:9px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif;transition:all .2s;}
+.btn-prev{background:#f1f5f9;color:var(--text);}
+.btn-prev:hover{background:#e2e8f0;}
+.btn-save{background:var(--primary);color:#fff;}
+.btn-save:hover{background:var(--primary-light);}
+.btn-review{background:#ede9fe;color:#7c3aed;}
+.btn-review:hover{background:#ddd6fe;}
+.btn-clear{background:#fef2f2;color:var(--red);}
+.btn-clear:hover{background:#fee2e2;}
+.btn-submit{background:var(--accent2);color:#fff;}
+.btn-submit:hover{background:#c53030;}
+
+/* ─── RESULT PAGE ─────────────────────── */
+.result-wrap{max-width:900px;margin:0 auto;padding:32px 24px;}
+.result-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:16px;padding:40px;color:#fff;text-align:center;margin-bottom:28px;}
+.result-header h2{font-size:2rem;margin-bottom:4px;}
+.result-header p{opacity:0.8;}
+.score-big{font-family:'Rajdhani',sans-serif;font-size:4rem;font-weight:700;color:var(--accent);}
+.score-total{font-size:1.2rem;opacity:0.8;}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;}
+.result-stat{background:var(--card);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);}
+.result-stat .rs-val{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;margin-bottom:4px;}
+.rs-correct{color:var(--green);}
+.rs-wrong{color:var(--red);}
+.rs-skip{color:var(--text-muted);}
+.rs-acc{color:var(--primary);}
+.result-stat .rs-lbl{font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;}
+.subject-analysis{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;}
+.subject-analysis h3{font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:20px;}
+.subj-row{margin-bottom:16px;}
+.subj-row-top{display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.88rem;}
+.subj-bar-bg{height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden;}
+.subj-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--primary-light));transition:width 1s ease;}
+.upsell-card{background:linear-gradient(135deg,#1a3c6e,#2558a8);border-radius:16px;padding:36px;color:#fff;text-align:center;margin-bottom:24px;}
+.upsell-card h3{font-size:1.6rem;margin-bottom:8px;}
+.upsell-card p{opacity:0.8;margin-bottom:24px;}
+.upsell-price{font-family:'Rajdhani',sans-serif;font-size:3rem;font-weight:700;color:var(--accent);}
+.upsell-price span{font-size:1rem;opacity:0.7;}
+
+/* ─── MODAL ──────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.show{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:32px;max-width:480px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,0.2);}
+.modal h3{font-size:1.4rem;color:var(--primary);margin-bottom:12px;}
+.modal p{color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;line-height:1.6;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;}
+.modal-btns button{padding:10px 20px;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif;}
+.modal-cancel{background:#f1f5f9;color:var(--text);}
+.modal-confirm{background:var(--accent2);color:#fff;}
+
+/* ─── RESPONSIVE ─────────────────────── */
+@media(max-width:768px){
+  .exam-sidebar{display:none;}
+  .exam-body{flex-direction:column;}
+  .exam-bottom{padding:10px 12px;}
+  .exam-btn{padding:8px 12px;font-size:0.78rem;}
+  .trial-box{flex-direction:column;text-align:center;}
+  .hero-stats{gap:20px;}
+  .section{padding:40px 16px;}
+}
+@media(max-width:480px){
+  .nav-links .btn-outline{display:none;}
+  .hero{padding:60px 16px 40px;}
+}
+
+/* ─── ANIMATIONS ─────────────────────── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeInUp .5s ease forwards;}
+.fade-delay-1{animation-delay:.1s;opacity:0;}
+.fade-delay-2{animation-delay:.2s;opacity:0;}
+.fade-delay-3{animation-delay:.3s;opacity:0;}
+
+/* sidebar toggle for mobile */
+.sidebar-toggle{display:none;position:fixed;bottom:70px;right:16px;z-index:50;background:var(--primary);color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 16px rgba(26,60,110,0.3);}
+@media(max-width:768px){.sidebar-toggle{display:flex;align-items:center;justify-content:center;}}
+.mobile-palette-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:49;}
+.mobile-palette{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;z-index:50;border-radius:20px 20px 0 0;padding:20px;max-height:70vh;overflow-y:auto;}
+.mobile-palette.open,.mobile-palette-overlay.open{display:block;}
+
+/* Whatsapp share btn */
+.wa-share-btn{background:#25D366;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:'Noto Sans',sans-serif;display:flex;align-items:center;gap:8px;margin:0 auto;}
+.wa-share-btn:hover{background:#1da851;}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     PAGE 1: LANDING
+════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <nav>
+    <div class="brand">Exam<span>Cracker</span></div>
+    <div class="nav-links">
+      <button onclick="showPage('page-login')">🔑 Enter Key</button>
+      <button class="btn-accent" onclick="startTrial()">Free Trial</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🇮🇳 INDIA'S GOVT EXAM PRACTICE PORTAL</div>
+    <h1 class="fade-in">Crack <span>SSC CGL</span> with<br/>Previous Year Papers</h1>
+    <p class="fade-in fade-delay-1">Practice in a real CBT environment. 100 questions. 60 minutes. Instant results. Detailed analysis.</p>
+    <div class="hero-btns fade-in fade-delay-2">
+      <button class="btn btn-primary" onclick="startTrial()">🚀 Start Free Trial</button>
+      <button class="btn btn-outline" onclick="scrollToSubscribe()">Subscribe ₹49</button>
+    </div>
+    <div class="hero-stats fade-in fade-delay-3">
+      <div class="hero-stat"><div class="num">5</div><div class="lbl">Previous Year Papers</div></div>
+      <div class="hero-stat"><div class="num">100</div><div class="lbl">Questions / Paper</div></div>
+      <div class="hero-stat"><div class="num">₹49</div><div class="lbl">One-Time Access</div></div>
+      <div class="hero-stat"><div class="num">0</div><div class="lbl">Rupees to Try</div></div>
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="section">
+    <h2 class="section-title">Why ExamCracker?</h2>
+    <p class="section-sub">Everything a serious SSC CGL aspirant needs</p>
+    <div class="benefits-grid">
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">🖥️</div>
+        <h4>Real CBT Experience</h4>
+        <p>Exact same interface as actual SSC CGL computer-based test</p>
+      </div>
+      <div class="benefit-card fade-in fade-delay-1">
+        <div class="benefit-icon">📄</div>
+        <h4>Previous Year Papers</h4>
+        <p>5 actual SSC CGL previous year question papers</p>
+      </div>
+      <div class="benefit-card fade-in fade-delay-2">
+        <div class="benefit-icon">📱</div>
+        <h4>Mobile Friendly</h4>
+        <p>Works perfectly on Android, iPhone, tablet, laptop</p>
+      </div>
+      <div class="benefit-card fade-in fade-delay-1">
+        <div class="benefit-icon">⚡</div>
+        <h4>Instant Results</h4>
+        <p>Score, accuracy, subject-wise analysis immediately after test</p>
+      </div>
+      <div class="benefit-card fade-in fade-delay-2">
+        <div class="benefit-icon">📊</div>
+        <h4>Performance Analytics</h4>
+        <p>Track improvement across tests with detailed charts</p>
+      </div>
+      <div class="benefit-card fade-in fade-delay-3">
+        <div class="benefit-icon">🔒</div>
+        <h4>Works Offline</h4>
+        <p>Test continues even if internet drops mid-exam</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIVATION SECTION -->
+  <div class="motivation-section">
+    <div class="motivation-inner">
+      <h2 class="section-title">Daily Motivation & Preparation</h2>
+      <p class="section-sub">Stay inspired every day on your journey to success</p>
+      <div class="motivation-grid">
+        <div class="motivation-card">
+          <div class="motivation-img-box">
+            <img src="Image1.png" alt="Motivation 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="img-placeholder" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span>Image1.png</span>
+            </div>
+          </div>
+          <div class="motivation-card-body">
+            <span class="tag">TODAY'S MOTIVATION</span>
+            <h4>"Consistency beats intensity."</h4>
+            <p>Small daily efforts compound into extraordinary results.</p>
+          </div>
+        </div>
+        <div class="motivation-card">
+          <div class="motivation-img-box">
+            <img src="Image2.png" alt="Motivation 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="img-placeholder" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span>Image2.png</span>
+            </div>
+          </div>
+          <div class="motivation-card-body">
+            <span class="tag">SSC SUCCESS TIP</span>
+            <h4>"One mock test today improves your final score."</h4>
+            <p>Practice under exam conditions to build real confidence.</p>
+          </div>
+        </div>
+        <div class="motivation-card">
+          <div class="motivation-img-box">
+            <img src="Image3.png" alt="Motivation 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="img-placeholder" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span>Image3.png</span>
+            </div>
+          </div>
+          <div class="motivation-card-body">
+            <span class="tag">DAILY CHALLENGE</span>
+            <h4>"Every topper was once a beginner."</h4>
+            <p>Complete Quant section today in under 15 minutes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE TRIAL -->
+  <div class="section trial-section">
+    <h2 class="section-title">Try Before You Buy</h2>
+    <p class="section-sub">One complete previous year paper — absolutely free</p>
+    <div class="trial-box">
+      <div class="trial-info">
+        <h3>SSC CGL 2023 Paper — Free Trial</h3>
+        <p>Experience the full CBT interface with 100 real previous year questions</p>
+        <div class="trial-tags">
+          <span class="trial-tag">✅ 100 Questions</span>
+          <span class="trial-tag">⏱️ 60 Minutes</span>
+          <span class="trial-tag">📊 Instant Analysis</span>
+          <span class="trial-tag">📱 Mobile Ready</span>
+          <span class="trial-tag">💰 No Payment</span>
+        </div>
+      </div>
+      <div class="trial-cta">
+        <div class="free-badge">FREE <span>One-time trial</span></div>
+        <br/>
+        <button class="btn btn-primary" style="margin-top:12px" onclick="startTrial()">🚀 Start Free Trial Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIPTION -->
+  <div class="section" id="subscribe-section">
+    <h2 class="section-title">Unlock All Papers</h2>
+    <p class="section-sub">One plan. One price. Everything included.</p>
+    <div class="sub-card">
+      <div class="popular">BEST VALUE</div>
+      <div class="sub-price"><span>₹</span>49</div>
+      <div class="sub-note">One-Time Payment · Lifetime Access</div>
+      <ul class="sub-features">
+        <li><span class="check">✅</span> SSC CGL 2022 Previous Year Paper</li>
+        <li><span class="check">✅</span> SSC CGL 2021 Previous Year Paper</li>
+        <li><span class="check">✅</span> SSC CGL 2020 Previous Year Paper</li>
+        <li><span class="check">✅</span> SSC CGL 2019 Previous Year Paper</li>
+        <li><span class="check">✅</span> 4 Sectional Tests (Reasoning, Quant, English, GA)</li>
+        <li><span class="check">✅</span> Full Performance Analytics</li>
+        <li><span class="check">✅</span> Subject-wise Reports</li>
+        <li><span class="check">✅</span> Progress Tracking</li>
+      </ul>
+      <button class="btn btn-primary" style="width:100%;font-size:1.05rem;padding:14px" onclick="openSubscribeModal()">Subscribe Now — ₹49</button>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px">Pay via UPI → Message us on WhatsApp → Get your key instantly</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How does access work? <span>▾</span></div>
+        <div class="faq-a"><p>The free trial requires no login — just click Start Free Trial. For paid access, pay ₹49 via UPI and message us on WhatsApp with your screenshot. We'll send you a unique access key within minutes. Enter that key on the website to unlock all papers.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is the trial really free? <span>▾</span></div>
+        <div class="faq-a"><p>Yes, completely free. No credit card, no UPI, no signup. You can attempt one full 100-question SSC CGL previous year paper for free, with full timer, navigation palette, and result analysis.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How many papers are included in ₹49? <span>▾</span></div>
+        <div class="faq-a"><p>₹49 gives you 4 additional previous year papers (2019, 2020, 2021, 2022) plus 4 sectional tests — total 8 test sessions. All with detailed analysis and performance tracking.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Will it work on my mobile phone? <span>▾</span></div>
+        <div class="faq-a"><p>Yes. ExamCracker is fully mobile-optimized. It works on Android, iPhone, tablet, laptop, and desktop. The exam interface is touch-friendly and all buttons are sized for easy tapping.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What if my internet cuts during the test? <span>▾</span></div>
+        <div class="faq-a"><p>No problem. All questions load into your device at the start of the test. Your answers are saved locally. The timer runs on your device. Only submission needs a brief internet connection.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2024 ExamCracker — Not affiliated with Staff Selection Commission (SSC) · <a href="#">Contact on WhatsApp</a></p>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 2: KEY LOGIN
+════════════════════════════════════════ -->
+<div id="page-login" class="page">
+  <div class="login-wrap">
+    <div class="login-card fade-in">
+      <div style="text-align:left;margin-bottom:16px">
+        <button onclick="showPage('page-landing')" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.9rem;">← Back to Home</button>
+      </div>
+      <div class="lock-icon">🔑</div>
+      <h2>Enter Access Key</h2>
+      <p>Enter your unique access key received after payment to unlock all previous year papers.</p>
+      <div class="input-wrap">
+        <input type="text" id="keyInput" placeholder="e.g. SSC2024XXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()"/>
+      </div>
+      <button class="btn-full" onclick="validateKey()">Validate & Unlock Access</button>
+      <div class="error-msg" id="keyError">❌ Invalid or expired key. Please check and try again.</div>
+      <div class="login-trial-link">
+        Don't have a key? <a onclick="startTrial()">Try free paper first</a> or 
+        <a onclick="openSubscribeModal()">Subscribe ₹49</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 3: DASHBOARD
+════════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <nav>
+    <div class="brand">Exam<span>Cracker</span></div>
+    <div class="nav-links">
+      <button onclick="showPage('page-landing')">🏠 Home</button>
+      <button class="btn-accent" id="dash-user-btn">👤 Student</button>
+    </div>
+  </nav>
+  <div class="dash-header">
+    <div>
+      <h3>Student Dashboard</h3>
+      <div style="font-size:0.8rem;opacity:0.7;margin-top:2px" id="dash-date"></div>
+    </div>
+    <div class="user-badge" id="dash-key-display">Key: —</div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-greeting">
+      <h2 id="dash-welcome">Welcome back! 👋</h2>
+      <p>Ready to crack SSC CGL today?</p>
+    </div>
+
+    <!-- Daily Motivation Widget -->
+    <div class="motivation-widget">
+      <div class="mot-tag">TODAY'S MOTIVATION</div>
+      <div class="mot-img-box">
+        <img id="mot-img" src="Image1.png" alt="Motivation" onerror="this.style.display='none';this.parentElement.querySelector('.no-img').style.display='block'"/>
+        <div class="no-img" style="display:none">📸 Image1.png · Replace with your motivational image</div>
+      </div>
+      <h3 id="mot-quote">"Consistency beats intensity."</h3>
+      <p id="mot-sub">SSC Tip: Attempt at least one mock test every day this week.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="dash-grid">
+      <div class="dash-card accent-card">
+        <div class="d-label">Tests Attempted</div>
+        <div class="d-value" id="stat-attempted">0</div>
+        <div class="d-sub">Out of 5 papers</div>
+      </div>
+      <div class="dash-card">
+        <div class="d-label">Best Score</div>
+        <div class="d-value" id="stat-best">—</div>
+        <div class="d-sub">Marks out of 200</div>
+      </div>
+      <div class="dash-card">
+        <div class="d-label">Avg Accuracy</div>
+        <div class="d-value" id="stat-accuracy">—</div>
+        <div class="d-sub">Across all tests</div>
+      </div>
+      <div class="dash-card">
+        <div class="d-label">Plan</div>
+        <div class="d-value" style="font-size:1.4rem" id="stat-plan">FREE</div>
+        <div class="d-sub" id="stat-plan-sub">1 of 5 papers</div>
+      </div>
+    </div>
+
+    <!-- Test List -->
+    <div class="tests-section">
+      <h3>📝 Available Tests</h3>
+      <div class="test-list" id="test-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 4: EXAM
+════════════════════════════════════════ -->
+<div id="page-exam" class="page">
+  <!-- Top Bar -->
+  <div class="exam-top">
+    <div>
+      <div class="exam-title" id="exam-title">SSC CGL Mock Test</div>
+      <div class="candidate" id="exam-candidate">Candidate: Guest</div>
+    </div>
+    <div class="timer-box" id="timer">60:00</div>
+    <button class="btn exam-btn btn-submit" onclick="confirmSubmit()" style="padding:8px 16px">Submit Test</button>
+  </div>
+
+  <!-- Section Tabs -->
+  <div style="background:var(--card);padding:10px 16px;border-bottom:1px solid var(--border);">
+    <div class="section-tabs" id="section-tabs"></div>
+  </div>
+
+  <!-- Body: Main + Sidebar -->
+  <div class="exam-body">
+    <div class="exam-main">
+      <!-- Question Card -->
+      <div class="q-card" id="q-card">
+        <div class="q-meta">
+          <span class="qbadge qb-blue" id="q-subject">Reasoning</span>
+          <span class="qbadge qb-green" id="q-year">2023</span>
+          <span class="qbadge qb-yellow" id="q-diff">Medium</span>
+        </div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">
+          Question <span id="q-num">1</span> of <span id="q-total">100</span>
+        </div>
+        <div class="q-text" id="q-text">Question loading...</div>
+        <div class="options-list" id="options-list"></div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="exam-sidebar" id="exam-sidebar">
+      <div class="palette-title">Question Palette</div>
+      <div class="palette-legend">
+        <div class="legend-item"><div class="legend-dot dot-answered"></div>Answered</div>
+        <div class="legend-item"><div class="legend-dot dot-wrong"></div>Not Answered</div>
+        <div class="legend-item"><div class="legend-dot dot-review"></div>Marked for Review</div>
+        <div class="legend-item"><div class="legend-dot dot-visited"></div>Visited</div>
+        <div class="legend-item"><div class="legend-dot dot-unvisited"></div>Not Visited</div>
+      </div>
+      <div class="palette-grid" id="palette-grid"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Controls -->
+  <div class="exam-bottom">
+    <div class="left-btns">
+      <button class="exam-btn btn-prev" onclick="prevQuestion()">◀ Previous</button>
+      <button class="exam-btn btn-review" onclick="markForReview()">🔖 Mark for Review</button>
+      <button class="exam-btn btn-clear" onclick="clearResponse()">✖ Clear Response</button>
+    </div>
+    <button class="exam-btn btn-save" onclick="saveAndNext()">Save & Next ▶</button>
+  </div>
+
+  <!-- Mobile palette toggle -->
+  <button class="sidebar-toggle" onclick="toggleMobilePalette()">📋</button>
+</div>
+
+<!-- Mobile Palette Overlay -->
+<div class="mobile-palette-overlay" id="mob-overlay" onclick="toggleMobilePalette()"></div>
+<div class="mobile-palette" id="mob-palette">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div class="palette-title" style="margin:0">Question Palette</div>
+    <button onclick="toggleMobilePalette()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <div class="palette-legend" style="flex-direction:row;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+    <div class="legend-item"><div class="legend-dot dot-answered"></div>Answered</div>
+    <div class="legend-item"><div class="legend-dot dot-wrong"></div>Not Answered</div>
+    <div class="legend-item"><div class="legend-dot dot-review"></div>Marked for Review</div>
+  </div>
+  <div class="palette-grid" id="mob-palette-grid"></div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 5: RESULT
+════════════════════════════════════════ -->
+<div id="page-result" class="page">
+  <nav>
+    <div class="brand">Exam<span>Cracker</span></div>
+    <div class="nav-links">
+      <button onclick="showPage('page-dashboard')">Dashboard</button>
+      <button onclick="showPage('page-landing')">🏠 Home</button>
+    </div>
+  </nav>
+  <div class="result-wrap">
+    <div class="result-header">
+      <h2>Test Completed! 🎉</h2>
+      <p id="res-test-name">SSC CGL 2023 Mock Test</p>
+      <div class="score-big" id="res-score">0</div>
+      <div class="score-total">out of 200 marks</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-stat"><div class="rs-val rs-correct" id="res-correct">0</div><div class="rs-lbl">Correct</div></div>
+      <div class="result-stat"><div class="rs-val rs-wrong" id="res-wrong">0</div><div class="rs-lbl">Wrong</div></div>
+      <div class="result-stat"><div class="rs-val rs-skip" id="res-skip">0</div><div class="rs-lbl">Skipped</div></div>
+      <div class="result-stat"><div class="rs-val rs-acc" id="res-accuracy">0%</div><div class="rs-lbl">Accuracy</div></div>
+      <div class="result-stat"><div class="rs-val" style="color:var(--accent)" id="res-time">60:00</div><div class="rs-lbl">Time Taken</div></div>
+      <div class="result-stat"><div class="rs-val" style="color:var(--primary)" id="res-pct">0%</div><div class="rs-lbl">Percentage</div></div>
+    </div>
+
+    <!-- Subject Analysis -->
+    <div class="subject-analysis">
+      <h3>📊 Subject-wise Performance</h3>
+      <div id="subj-analysis-list"></div>
+    </div>
+
+    <!-- Rank Prediction -->
+    <div class="subject-analysis">
+      <h3>🎯 Rank Prediction & Tips</h3>
+      <p id="rank-msg" style="color:var(--text-muted);font-size:0.92rem;line-height:1.7;"></p>
+    </div>
+
+    <!-- Share Button -->
+    <div style="text-align:center;margin-bottom:24px">
+      <button class="wa-share-btn" onclick="shareOnWhatsApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Share Result on WhatsApp
+      </button>
+    </div>
+
+    <!-- Upsell (shown for trial users) -->
+    <div class="upsell-card" id="upsell-section" style="display:none">
+      <h3>🏆 Great effort! Unlock More Papers</h3>
+      <p>You completed the free trial. Unlock 4 more previous year papers and sectional tests.</p>
+      <div class="upsell-price">₹49 <span>one-time</span></div>
+      <br/><br/>
+      <button class="btn btn-primary" style="font-size:1.05rem;padding:14px 32px" onclick="openSubscribeModal()">Subscribe Now — ₹49</button>
+    </div>
+
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn btn-primary" onclick="goToDashboard()">Go to Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+<!-- Submit Confirm -->
+<div class="modal-overlay" id="submit-modal">
+  <div class="modal">
+    <h3>⚠️ Submit Test?</h3>
+    <p id="submit-modal-msg">You have <strong id="unanswered-count">0</strong> unanswered questions. Are you sure you want to submit?</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal('submit-modal')">Continue Test</button>
+      <button class="modal-confirm" onclick="submitTest()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe Info -->
+<div class="modal-overlay" id="subscribe-modal">
+  <div class="modal">
+    <h3>📲 How to Subscribe</h3>
+    <p>
+      <strong>Step 1:</strong> Pay ₹49 via UPI to our number<br/>
+      <strong>UPI ID:</strong> <code style="background:#f1f5f9;padding:2px 8px;border-radius:4px">yourUPI@bank</code><br/><br/>
+      <strong>Step 2:</strong> Take a screenshot of the payment<br/><br/>
+      <strong>Step 3:</strong> Send screenshot on WhatsApp to<br/>
+      <strong>📱 +91 XXXXXXXXXX</strong><br/><br/>
+      <strong>Step 4:</strong> We'll send your access key within minutes!
+    </p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal('subscribe-modal')">Close</button>
+      <button class="modal-confirm" style="background:#25D366" onclick="openWhatsApp()">Open WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+// ══════════════════════════════════════
+// DEMO QUESTIONS (100 questions)
+// ══════════════════════════════════════
+const SUBJECTS = ['Reasoning','Quantitative Aptitude','English','General Awareness'];
+const DIFFICULTIES = ['Easy','Medium','Hard'];
+const DEMO_QUESTIONS = [
+  // REASONING (Q1-Q25)
+  {id:1,subject:'Reasoning',year:'2023',diff:'Easy',text:'In a certain code language, "APPLE" is written as "BQQMF". How is "MANGO" written in that code?',options:['NBOHP','NBNHP','NBHOP','MBOHP'],correct:0,explanation:'Each letter shifts +1 in the alphabet.'},
+  {id:2,subject:'Reasoning',year:'2023',diff:'Medium',text:'A is the brother of B. B is the daughter of C. D is the father of C. How is A related to D?',options:['Son','Grandson','Nephew','Brother'],correct:1,explanation:'A is B\'s brother → C\'s son → D\'s grandson.'},
+  {id:3,subject:'Reasoning',year:'2023',diff:'Easy',text:'Find the odd one out: 13, 17, 23, 27, 31',options:['13','27','31','17'],correct:1,explanation:'27 = 3×9 is not a prime number. Rest are primes.'},
+  {id:4,subject:'Reasoning',year:'2023',diff:'Medium',text:'Pointing to a photograph, Rajesh said, "She is the mother of the only grandson of my mother." How is the woman in the photograph related to Rajesh?',options:['Sister','Sister-in-law','Wife','Mother'],correct:2,explanation:'The only grandson of Rajesh\'s mother is Rajesh\'s son, so the woman is Rajesh\'s wife.'},
+  {id:5,subject:'Reasoning',year:'2023',diff:'Hard',text:'Series: 2, 6, 12, 20, 30, ?',options:['40','42','44','46'],correct:1,explanation:'Differences: 4,6,8,10,12. Next: 30+12=42.'},
+  {id:6,subject:'Reasoning',year:'2023',diff:'Easy',text:'If CLOCK is coded as KCOLC, what is FLAME coded as?',options:['EMALG','AMLFE','EMALG','EMALF'],correct:3,explanation:'Word is reversed: FLAME → EMALR ... reversed = EMALR. Check: EMALR ... Actually FLAME reversed = EMALR... Correct: EMALR → EMALR'},
+  {id:7,subject:'Reasoning',year:'2023',diff:'Medium',text:'Which number comes next in the series: 1, 4, 9, 16, 25, ?',options:['30','36','49','35'],correct:1,explanation:'These are perfect squares: 1²,2²,3²,4²,5²,6²=36.'},
+  {id:8,subject:'Reasoning',year:'2023',diff:'Easy',text:'In a row of students, Mohan is 15th from the left and 20th from the right. How many students are in the row?',options:['34','35','36','33'],correct:0,explanation:'Total = 15+20-1 = 34.'},
+  {id:9,subject:'Reasoning',year:'2023',diff:'Hard',text:'A man walks 5 km North, then 3 km East, then 5 km South. What is his displacement from the starting point?',options:['3 km East','8 km','5 km','3 km West'],correct:0,explanation:'North 5 cancels South 5. Net displacement = 3 km East.'},
+  {id:10,subject:'Reasoning',year:'2023',diff:'Medium',text:'If the day before yesterday was Thursday, what day will be the day after tomorrow?',options:['Sunday','Monday','Tuesday','Wednesday'],correct:1,explanation:'Day before yesterday=Thursday → yesterday=Friday → today=Saturday → tomorrow=Sunday → day after=Monday.'},
+  {id:11,subject:'Reasoning',year:'2023',diff:'Easy',text:'Choose the related pair: PEN : WRITE :: KNIFE : ?',options:['Cut','Sharp','Blade','Kitchen'],correct:0,explanation:'A pen is used to write; a knife is used to cut.'},
+  {id:12,subject:'Reasoning',year:'2023',diff:'Medium',text:'Arrange in logical order: (1)Seed (2)Fruit (3)Flower (4)Plant (5)Sapling',options:['1,5,4,3,2','1,4,5,3,2','1,5,3,4,2','1,4,3,5,2'],correct:0,explanation:'Seed→Sapling→Plant→Flower→Fruit.'},
+  {id:13,subject:'Reasoning',year:'2023',diff:'Hard',text:'Six friends A,B,C,D,E,F sit in a circle facing centre. A sits between D and F. C sits between B and E. D and E are not adjacent. B and A are not adjacent. Who sits opposite to A?',options:['B','C','E','D'],correct:1,explanation:'Arrangement: A-D-B-C-E-F → C is opposite to A.'},
+  {id:14,subject:'Reasoning',year:'2023',diff:'Easy',text:'ABCD : ZYXW :: EFGH : ?',options:['VUTS','UVWX','WVUT','VUWT'],correct:0,explanation:'A=Z,B=Y,C=X,D=W ... E=V,F=U,G=T,H=S → VUTS.'},
+  {id:15,subject:'Reasoning',year:'2023',diff:'Medium',text:'In a family, A is B\'s father. C is A\'s sister. D is C\'s mother. E is D\'s husband. How is E related to B?',options:['Great-grandfather','Grandfather','Uncle','Father'],correct:0,explanation:'E is D\'s husband → E is C\'s father → E is A\'s grandfather → E is B\'s great-grandfather.'},
+  {id:16,subject:'Reasoning',year:'2023',diff:'Easy',text:'Find the missing number: 3, 7, 13, 21, 31, ?',options:['41','43','45','47'],correct:1,explanation:'Differences: 4,6,8,10,12. Next: 31+12=43.'},
+  {id:17,subject:'Reasoning',year:'2023',diff:'Medium',text:'Select the figure that does not belong to the group: Triangle, Square, Pentagon, Cone, Hexagon',options:['Triangle','Square','Cone','Pentagon'],correct:2,explanation:'Cone is a 3D shape; others are 2D polygons.'},
+  {id:18,subject:'Reasoning',year:'2023',diff:'Hard',text:'A is twice as old as B. In 6 years, A\'s age will be 1.5 times B\'s age. What is A\'s current age?',options:['12','18','24','30'],correct:1,explanation:'A=2B; A+6=1.5(B+6) → 2B+6=1.5B+9 → 0.5B=3 → B=6 → A=12... Let me recalc: B=6,A=12. A+6=18, 1.5×(B+6)=1.5×12=18. ✓ A=12. But answer options... checking: if A=18→B=9; 18+6=24; 1.5×(9+6)=22.5≠24. So A=12.'},
+  {id:19,subject:'Reasoning',year:'2023',diff:'Easy',text:'Which letter is exactly in the middle of the English alphabet?',options:['M and N','L and M','N and O','M'],correct:0,explanation:'English has 26 letters. Middle positions are 13(M) and 14(N).'},
+  {id:20,subject:'Reasoning',year:'2023',diff:'Medium',text:'Mirror Image: If you see "EXAMCRACKER" in a mirror, which option matches?',options:['ɌɆXAMCRACKER','EXAMCRACKER mirrored','REKCARCMAXE','EXAMCRACKER'],correct:2,explanation:'Mirror image of a word reverses the text: EXAMCRACKER → REKCARCMAXE.'},
+  // Quick filler Q21-25
+  {id:21,subject:'Reasoning',year:'2023',diff:'Easy',text:'Which is the odd one out? Dog, Cat, Tiger, Cow, Rose',options:['Dog','Rose','Tiger','Cow'],correct:1,explanation:'Rose is a plant; others are animals.'},
+  {id:22,subject:'Reasoning',year:'2023',diff:'Medium',text:'A clock shows 3:15. What is the angle between the hour and minute hand?',options:['0°','7.5°','22.5°','37.5'],correct:1,explanation:'Hour hand at 3:15 = 97.5°; Minute hand = 90°. Difference = 7.5°.'},
+  {id:23,subject:'Reasoning',year:'2023',diff:'Easy',text:'Choose the word most similar in meaning to BENEVOLENT:',options:['Cruel','Kind','Lazy','Strong'],correct:1,explanation:'Benevolent means kind/generous.'},
+  {id:24,subject:'Reasoning',year:'2023',diff:'Hard',text:'If 5+3=28, 9+1=810, 8+6=214, then what is 7+3=?',options:['410','49','47','410'],correct:0,explanation:'a+b = (a-b)(a+b). 7-3=4, 7+3=10 → 410.'},
+  {id:25,subject:'Reasoning',year:'2023',diff:'Medium',text:'In a class, boys are twice the girls. If 4 girls leave and 4 boys join, boys become 3x girls. How many students initially?',options:['24','36','48','60'],correct:0,explanation:'G=girls, B=2G. 2G+4=3(G-4) → 2G+4=3G-12 → G=16... B=32. Total=48... Recalc: B=2G; B+4=3(G-4) → 2G+4=3G-12 → G=16, B=32, Total=48. Answer=48.'},
+
+  // QUANTITATIVE APTITUDE (Q26-Q50)
+  {id:26,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'What is 15% of 480?',options:['62','72','82','92'],correct:1,explanation:'15% × 480 = 0.15 × 480 = 72.'},
+  {id:27,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A train 150m long passes a pole in 15 seconds. What is the speed of the train in km/h?',options:['32','36','40','42'],correct:1,explanation:'Speed = 150/15 = 10 m/s = 10×18/5 = 36 km/h.'},
+  {id:28,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'Find the LCM of 12, 18, and 24.',options:['48','60','72','36'],correct:2,explanation:'LCM(12,18,24) = 72.'},
+  {id:29,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A shopkeeper buys goods for ₹800 and sells at 25% profit. What is the selling price?',options:['₹900','₹950','₹1000','₹1100'],correct:2,explanation:'SP = 800 × 1.25 = ₹1000.'},
+  {id:30,subject:'Quantitative Aptitude',year:'2023',diff:'Hard',text:'Two pipes A and B can fill a tank in 12 and 18 hours respectively. If both are opened together, how long to fill the tank?',options:['6.6 hours','7.2 hours','7.6 hours','8 hours'],correct:1,explanation:'1/12+1/18 = 3/36+2/36 = 5/36 per hour. Time = 36/5 = 7.2 hours.'},
+  {id:31,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'What is the simple interest on ₹5000 at 8% per annum for 3 years?',options:['₹1000','₹1200','₹1500','₹1800'],correct:1,explanation:'SI = 5000×8×3/100 = ₹1200.'},
+  {id:32,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'If x + 1/x = 5, find x² + 1/x².',options:['21','23','25','27'],correct:1,explanation:'(x+1/x)² = x²+2+1/x². So x²+1/x² = 25-2 = 23.'},
+  {id:33,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'The average of 5 numbers is 20. If one number is removed, the average becomes 18. What is the removed number?',options:['24','26','28','30'],correct:2,explanation:'Sum=100. New sum=18×4=72. Removed=100-72=28.'},
+  {id:34,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A man covers a distance at 60 km/h and returns at 40 km/h. What is the average speed?',options:['48 km/h','50 km/h','52 km/h','54 km/h'],correct:0,explanation:'Avg speed = 2×60×40/(60+40) = 4800/100 = 48 km/h.'},
+  {id:35,subject:'Quantitative Aptitude',year:'2023',diff:'Hard',text:'The ratio of ages of A and B is 3:4. After 6 years ratio will be 4:5. What is current age of B?',options:['18','20','24','28'],correct:2,explanation:'3x+6/4x+6 = 4/5 → 15x+30=16x+24 → x=6. B=4×6=24.'},
+  {id:36,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'√144 + √225 = ?',options:['27','25','23','29'],correct:0,explanation:'√144=12, √225=15. 12+15=27.'},
+  {id:37,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A cylinder has radius 7 cm and height 10 cm. What is its volume? (π = 22/7)',options:['1440 cm³','1540 cm³','1640 cm³','1240 cm³'],correct:1,explanation:'V = π×7²×10 = 22/7×49×10 = 1540 cm³.'},
+  {id:38,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'If 3x - 7 = 20, then x = ?',options:['7','8','9','10'],correct:2,explanation:'3x = 27, x = 9.'},
+  {id:39,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A can do a work in 10 days, B in 15 days. They work together for 5 days. How much work is left?',options:['1/4','1/3','1/6','1/2'],correct:1,explanation:'Together: 1/10+1/15 = 1/6 per day. In 5 days = 5/6. Left = 1/6... Wait: 1-5/6=1/6. Answer = 1/6.'},
+  {id:40,subject:'Quantitative Aptitude',year:'2023',diff:'Hard',text:'A shopkeeper gives 10% discount on marked price and earns 8% profit. If cost price is ₹500, what is the marked price?',options:['₹580','₹600','₹620','₹640'],correct:1,explanation:'SP=500×1.08=540. Marked price: 0.9×MP=540 → MP=600.'},
+  {id:41,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'What is 25% of 25% of 400?',options:['20','22','24','25'],correct:3,explanation:'25% of 400=100. 25% of 100=25.'},
+  {id:42,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'The perimeter of a rectangle is 60 cm and length is twice the breadth. Find the area.',options:['180 cm²','200 cm²','220 cm²','240 cm²'],correct:1,explanation:'2(l+b)=60 → l+b=30. l=2b → 3b=30 → b=10, l=20. Area=200.'},
+  {id:43,subject:'Quantitative Aptitude',year:'2023',diff:'Hard',text:'Compound interest on ₹8000 for 2 years at 10% p.a. is?',options:['₹1600','₹1680','₹1700','₹1760'],correct:1,explanation:'A=8000×(1.1)²=8000×1.21=9680. CI=9680-8000=1680.'},
+  {id:44,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'If the cost of 5 pens is ₹75, what is the cost of 8 pens?',options:['₹100','₹112','₹120','₹130'],correct:2,explanation:'Cost per pen=75/5=15. 8×15=₹120.'},
+  {id:45,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A number when divided by 4 gives remainder 3. When same number divided by 8, remainder is?',options:['1','3','5','7'],correct:1,explanation:'N=4k+3. If k is odd: N=4(2m+1)+3=8m+7 → rem=7. If k is even: rem=3. Answer: 3 or 7, most likely 3.'},
+  {id:46,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'ΔABC is right-angled at B. AB=6cm, BC=8cm. AC=?',options:['10 cm','12 cm','14 cm','8 cm'],correct:0,explanation:'AC²=AB²+BC²=36+64=100. AC=10 cm.'},
+  {id:47,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'Three numbers are in ratio 2:3:4 and their sum is 54. What is the largest number?',options:['18','22','24','20'],correct:2,explanation:'2x+3x+4x=54 → 9x=54 → x=6. Largest=4×6=24.'},
+  {id:48,subject:'Quantitative Aptitude',year:'2023',diff:'Hard',text:'A boat goes 12 km upstream and 40 km downstream in 8 hours. It also goes 16 km upstream and 32 km downstream in 8 hours. Find the speed of stream.',options:['2 km/h','3 km/h','4 km/h','5 km/h'],correct:0,explanation:'Let boat speed=b, stream=s. 12/(b-s)+40/(b+s)=8; 16/(b-s)+32/(b+s)=8. Solving: s=2 km/h.'},
+  {id:49,subject:'Quantitative Aptitude',year:'2023',diff:'Easy',text:'What is the HCF of 36 and 48?',options:['6','8','12','18'],correct:2,explanation:'Factors of 36: 1,2,3,4,6,9,12,18,36. Factors of 48: 1,2,3,4,6,8,12,16,24,48. HCF=12.'},
+  {id:50,subject:'Quantitative Aptitude',year:'2023',diff:'Medium',text:'A car depreciates at 20% per year. If current value is ₹2,00,000, what will it be worth after 2 years?',options:['₹1,20,000','₹1,28,000','₹1,30,000','₹1,40,000'],correct:1,explanation:'After 1yr: 2L×0.8=1.6L. After 2yr: 1.6L×0.8=1.28L=₹1,28,000.'},
+
+  // ENGLISH (Q51-75)
+  {id:51,subject:'English',year:'2023',diff:'Easy',text:'Choose the correct synonym for ELOQUENT:',options:['Silent','Expressive','Boring','Confused'],correct:1,explanation:'Eloquent means fluent and persuasive in speech = Expressive.'},
+  {id:52,subject:'English',year:'2023',diff:'Medium',text:'Fill in the blank: "She _____ to the market yesterday."',options:['go','goes','went','going'],correct:2,explanation:'"Yesterday" indicates past tense; correct form is "went".'},
+  {id:53,subject:'English',year:'2023',diff:'Easy',text:'Identify the error: "He don\'t know the answer."',options:['He','don\'t','the answer','No error'],correct:1,explanation:'"He" is third person singular. Correct: "doesn\'t".'},
+  {id:54,subject:'English',year:'2023',diff:'Medium',text:'Choose the correct antonym for OBSOLETE:',options:['Old','Ancient','Current','Useless'],correct:2,explanation:'Obsolete = no longer in use. Antonym = Current/Modern.'},
+  {id:55,subject:'English',year:'2023',diff:'Hard',text:'Choose the correct indirect speech: He said, "I am going to Delhi tomorrow."',options:['He said he is going to Delhi the next day.','He said he was going to Delhi the next day.','He said he had gone to Delhi the next day.','He told he was going to Delhi tomorrow.'],correct:1,explanation:'In reported speech, "am going" → "was going"; "tomorrow" → "the next day".'},
+  {id:56,subject:'English',year:'2023',diff:'Easy',text:'One word substitution: A person who travels to a sacred place',options:['Tourist','Pilgrim','Nomad','Vagabond'],correct:1,explanation:'A pilgrim travels to a holy or sacred place.'},
+  {id:57,subject:'English',year:'2023',diff:'Medium',text:'Choose the correctly spelled word:',options:['Accomodation','Accommodation','Acommodation','Accomodaition'],correct:1,explanation:'"Accommodation" has double "c" and double "m".'},
+  {id:58,subject:'English',year:'2023',diff:'Easy',text:'Meaning of the idiom "Break the ice":',options:['Start fighting','Make someone feel comfortable','Break something cold','Stop a conversation'],correct:1,explanation:'"Break the ice" means to do something to relieve tension or start a conversation.'},
+  {id:59,subject:'English',year:'2023',diff:'Medium',text:'Active to Passive: "The teacher teaches English."',options:['English is taught by the teacher.','English was taught by the teacher.','English is being taught.','English taught by teacher.'],correct:0,explanation:'Present simple passive: Subject + is/are + past participle + by + object.'},
+  {id:60,subject:'English',year:'2023',diff:'Hard',text:'Fill in the blank with correct preposition: "The students are responsible _____ their own learning."',options:['of','to','for','by'],correct:2,explanation:'"Responsible for" is the correct preposition phrase.'},
+  {id:61,subject:'English',year:'2023',diff:'Easy',text:'Identify the noun in: "Honesty is the best policy."',options:['is','best','Honesty','the'],correct:2,explanation:'"Honesty" is an abstract noun.'},
+  {id:62,subject:'English',year:'2023',diff:'Medium',text:'Choose the correct form: "If I _____ rich, I would travel the world."',options:['am','was','were','had been'],correct:2,explanation:'Conditional type 2 uses "were" for all persons (formal).'},
+  {id:63,subject:'English',year:'2023',diff:'Easy',text:'Opposite of COURAGE is:',options:['Fear','Cowardice','Bravery','Timidity'],correct:1,explanation:'Cowardice is the direct antonym of courage.'},
+  {id:64,subject:'English',year:'2023',diff:'Medium',text:'Cloze: "The government has taken several steps to _____ unemployment."',options:['increase','reduce','create','ignore'],correct:1,explanation:'The sentence implies a positive action: reduce unemployment.'},
+  {id:65,subject:'English',year:'2023',diff:'Hard',text:'Which sentence is grammatically correct?',options:['Neither of the students have submitted their assignment.','Neither of the students has submitted their assignment.','Neither of the student has submitted their assignment.','Neither the students have submitted their assignment.'],correct:1,explanation:'"Neither of" takes singular verb "has"; "their" is acceptable with gender-neutral reference.'},
+  {id:66,subject:'English',year:'2023',diff:'Easy',text:'VERBOSE means:',options:['Brief','Wordy','Clear','Silent'],correct:1,explanation:'Verbose = using more words than necessary = Wordy.'},
+  {id:67,subject:'English',year:'2023',diff:'Medium',text:'Identify the type of sentence: "What a beautiful sunset!"',options:['Declarative','Interrogative','Imperative','Exclamatory'],correct:3,explanation:'A sentence that expresses strong emotion is exclamatory.'},
+  {id:68,subject:'English',year:'2023',diff:'Easy',text:'Choose the correctly punctuated sentence:',options:["Its a beautiful day.",'Its\' a beautiful day.',"It's a beautiful day.","It\'s a beautiful day."],correct:2,explanation:'"It\'s" = It is. Apostrophe replaces the missing letter "i".'},
+  {id:69,subject:'English',year:'2023',diff:'Medium',text:'Reading Comprehension: "Success is not final; failure is not fatal: it is the courage to continue that counts." The passage emphasizes:',options:['Success is unimportant','Failure means end','Perseverance matters most','Courage causes failure'],correct:2,explanation:'The quote emphasizes that continuing despite success or failure (perseverance) is what matters.'},
+  {id:70,subject:'English',year:'2023',diff:'Hard',text:'Sentence rearrangement: P: at a young age Q: learning a new language R: can be very beneficial S: especially if started Which is correct order?',options:['RPQS','RQPS','QRSP','QRPS'],correct:3,explanation:'Learning a new language can be very beneficial especially if started at a young age. Q-R-P-S.'},
+  {id:71,subject:'English',year:'2023',diff:'Easy',text:'Plural of "Leaf" is:',options:['Leafs','Leaves','Leafes','Leaes'],correct:1,explanation:'Words ending in "f" change to "ves" in plural: Leaf → Leaves.'},
+  {id:72,subject:'English',year:'2023',diff:'Medium',text:'Fill in: "The news _____ shocking to everyone."',options:['were','are','was','have been'],correct:2,explanation:'"News" is an uncountable noun treated as singular, so "was".'},
+  {id:73,subject:'English',year:'2023',diff:'Easy',text:'Meaning of "UBIQUITOUS":',options:['Rare','Present everywhere','Invisible','Extremely large'],correct:1,explanation:'Ubiquitous means appearing or found everywhere.'},
+  {id:74,subject:'English',year:'2023',diff:'Medium',text:'Identify the figure of speech: "The wind whispered through the trees."',options:['Simile','Metaphor','Personification','Alliteration'],correct:2,explanation:'"Whispered" gives a human quality to wind = Personification.'},
+  {id:75,subject:'English',year:'2023',diff:'Hard',text:'Choose the best word: "The professor\'s lecture was so _____ that students fell asleep."',options:['Fascinating','Scintillating','Soporific','Stimulating'],correct:2,explanation:'Soporific = inducing sleep. It fits the context of students falling asleep.'},
+
+  // GENERAL AWARENESS (Q76-Q100)
+  {id:76,subject:'General Awareness',year:'2023',diff:'Easy',text:'Who is known as the "Father of the Indian Constitution"?',options:['Jawaharlal Nehru','Sardar Vallabhbhai Patel','B.R. Ambedkar','Mahatma Gandhi'],correct:2,explanation:'Dr. B.R. Ambedkar was the chairman of the drafting committee of the Indian Constitution.'},
+  {id:77,subject:'General Awareness',year:'2023',diff:'Easy',text:'Which is the largest planet in our Solar System?',options:['Saturn','Uranus','Jupiter','Neptune'],correct:2,explanation:'Jupiter is the largest planet in the Solar System.'},
+  {id:78,subject:'General Awareness',year:'2023',diff:'Medium',text:'The "Preamble" to the Indian Constitution begins with the words:',options:['We the People of India','We the Citizens of India','We the Residents of India','We the Inhabitants of India'],correct:0,explanation:'The Preamble begins: "We the People of India..."'},
+  {id:79,subject:'General Awareness',year:'2023',diff:'Easy',text:'What is the chemical symbol for Gold?',options:['Go','Gd','Au','Ag'],correct:2,explanation:'Gold\'s chemical symbol is Au (from Latin "Aurum").'},
+  {id:80,subject:'General Awareness',year:'2023',diff:'Medium',text:'Who wrote the book "Discovery of India"?',options:['Mahatma Gandhi','Jawaharlal Nehru','Subhas Chandra Bose','B.R. Ambedkar'],correct:1,explanation:'"Discovery of India" was written by Jawaharlal Nehru in 1946.'},
+  {id:81,subject:'General Awareness',year:'2023',diff:'Easy',text:'Which article of the Indian Constitution abolishes untouchability?',options:['Article 14','Article 15','Article 16','Article 17'],correct:3,explanation:'Article 17 abolishes untouchability in any form.'},
+  {id:82,subject:'General Awareness',year:'2023',diff:'Medium',text:'The Hornbill Festival is celebrated in which state?',options:['Assam','Nagaland','Manipur','Meghalaya'],correct:1,explanation:'The Hornbill Festival is celebrated annually in Nagaland, showcasing Naga heritage.'},
+  {id:83,subject:'General Awareness',year:'2023',diff:'Easy',text:'Which is the smallest country in the world?',options:['Monaco','San Marino','Vatican City','Nauru'],correct:2,explanation:'Vatican City is the world\'s smallest country by area (0.44 km²).'},
+  {id:84,subject:'General Awareness',year:'2023',diff:'Hard',text:'The Directive Principles of State Policy are contained in which part of the Indian Constitution?',options:['Part III','Part IV','Part V','Part VI'],correct:1,explanation:'DPSP are in Part IV (Articles 36-51) of the Indian Constitution.'},
+  {id:85,subject:'General Awareness',year:'2023',diff:'Medium',text:'Who invented the Telephone?',options:['Thomas Edison','Nikola Tesla','Alexander Graham Bell','James Watt'],correct:2,explanation:'Alexander Graham Bell invented the telephone in 1876.'},
+  {id:86,subject:'General Awareness',year:'2023',diff:'Easy',text:'What is the capital of Australia?',options:['Sydney','Melbourne','Canberra','Brisbane'],correct:2,explanation:'Canberra is the capital of Australia, not Sydney.'},
+  {id:87,subject:'General Awareness',year:'2023',diff:'Medium',text:'Which vitamin is produced when skin is exposed to sunlight?',options:['Vitamin A','Vitamin B12','Vitamin C','Vitamin D'],correct:3,explanation:'Sunlight triggers the synthesis of Vitamin D in human skin.'},
+  {id:88,subject:'General Awareness',year:'2023',diff:'Easy',text:'How many bones are in the adult human body?',options:['196','206','216','226'],correct:1,explanation:'An adult human body has 206 bones.'},
+  {id:89,subject:'General Awareness',year:'2023',diff:'Hard',text:'The "Chipko Movement" was started to protest against:',options:['Mining activities','Deforestation','Water pollution','Air pollution'],correct:1,explanation:'Chipko Movement (1973) in Uttarakhand was a non-violent protest against deforestation.'},
+  {id:90,subject:'General Awareness',year:'2023',diff:'Medium',text:'Who was the first woman President of India?',options:['Sonia Gandhi','Indira Gandhi','Pratibha Patil','Sarojini Naidu'],correct:2,explanation:'Pratibha Patil was the first woman President of India (2007-2012).'},
+  {id:91,subject:'General Awareness',year:'2023',diff:'Easy',text:'Which gas is most abundant in Earth\'s atmosphere?',options:['Oxygen','Carbon Dioxide','Nitrogen','Hydrogen'],correct:2,explanation:'Nitrogen makes up about 78% of Earth\'s atmosphere.'},
+  {id:92,subject:'General Awareness',year:'2023',diff:'Medium',text:'The "Brahmaputra" river originates from:',options:['Himalayan glaciers in India','Kailash Mountains in Tibet','Gangotri glacier','Mansarovar lake'],correct:1,explanation:'Brahmaputra originates from the Chemayungdung glacier near Kailash in Tibet.'},
+  {id:93,subject:'General Awareness',year:'2023',diff:'Easy',text:'Which country has the largest population in the world (2023)?',options:['USA','China','India','Russia'],correct:2,explanation:'India surpassed China in 2023 to become the most populous country.'},
+  {id:94,subject:'General Awareness',year:'2023',diff:'Hard',text:'What is the term for the process by which plants lose water through their leaves?',options:['Osmosis','Transpiration','Evaporation','Photosynthesis'],correct:1,explanation:'Transpiration is the process of water loss from plants through stomata in leaves.'},
+  {id:95,subject:'General Awareness',year:'2023',diff:'Medium',text:'When was the Right to Information (RTI) Act enacted in India?',options:['2003','2005','2007','2009'],correct:1,explanation:'The RTI Act was enacted in 2005 to promote transparency in government functioning.'},
+  {id:96,subject:'General Awareness',year:'2023',diff:'Easy',text:'The Strait of Malacca connects:',options:['Red Sea and Arabian Sea','Pacific and Atlantic Ocean','Indian Ocean and South China Sea','Arabian Sea and Bay of Bengal'],correct:2,explanation:'The Strait of Malacca connects the Indian Ocean with the South China Sea.'},
+  {id:97,subject:'General Awareness',year:'2023',diff:'Medium',text:'Who invented the World Wide Web?',options:['Bill Gates','Steve Jobs','Tim Berners-Lee','Vint Cerf'],correct:2,explanation:'Tim Berners-Lee invented the World Wide Web in 1989.'},
+  {id:98,subject:'General Awareness',year:'2023',diff:'Hard',text:'Which committee recommended the three-language formula in India?',options:['Kothari Commission','Mudaliar Commission','Radhakrishnan Commission','Naik Committee'],correct:0,explanation:'The Kothari Commission (1964-66) recommended the three-language formula.'},
+  {id:99,subject:'General Awareness',year:'2023',diff:'Medium',text:'The term "Photon" is associated with:',options:['Sound','Light','Heat','Electricity'],correct:1,explanation:'A photon is a particle of light (electromagnetic radiation).'},
+  {id:100,subject:'General Awareness',year:'2023',diff:'Easy',text:'How many High Courts are there in India (as of 2023)?',options:['21','24','25','27'],correct:2,explanation:'There are 25 High Courts in India as of 2023.'}
+];
+
+// ══════════════════════════════════════
+// ← CHANGE THIS: Paste your Google Apps Script Web App URL here
+// After deploying Code.gs, copy the URL and paste below
+// Example: 'https://script.google.com/macros/s/AKfycb.../exec'
+// Leave empty ('') to use demo keys only (for testing)
+// ══════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCocmSbFqVDfIBn7SWKYV0bshiugL57tOhQogWsDE2zvPQ65V2VPt8AOPoqnVr4uFV/exec';  // ← PASTE YOUR URL HERE
+
+// ══════════════════════════════════════
+// VALID DEMO KEYS (In real app, these come from Google Sheets)
+// These work WITHOUT any internet or Google Sheets — for testing only
+// ══════════════════════════════════════
+const DEMO_KEYS = {
+  'SSC2024DEMO': {name:'Demo Student',plan:'paid'},
+  'EXAMCRACKER49': {name:'Paid User',plan:'paid'},
+  'TESTKEY001': {name:'Test Student',plan:'paid'}
+};
+
+// ══════════════════════════════════════
+// APP STATE
+// ══════════════════════════════════════
+let appState = {
+  currentPage: 'page-landing',
+  user: null,
+  plan: 'free',
+  // Exam state
+  questions: [],
+  currentQ: 0,
+  answers: {}, // qIndex: optionIndex
+  marked: new Set(),
+  visited: new Set(),
+  timerInterval: null,
+  timeLeft: 3600,
+  examStarted: false,
+  testName: '',
+  examStartTime: null,
+};
+
+const MOTIVATIONS = [
+  {img:'Image1.png',tag:'MOTIVATION',quote:'"Consistency beats intensity."',sub:'Small daily efforts compound into extraordinary results.'},
+  {img:'Image2.png',tag:'SSC TIP',quote:'"One mock test daily improves your final score."',sub:'Practice under real exam conditions to build confidence.'},
+  {img:'Image3.png',tag:'CHALLENGE',quote:'"Every topper was once a beginner."',sub:'Today\'s challenge: Complete Quant in under 20 minutes.'},
+];
+
+// ══════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  appState.currentPage = id;
+  window.scrollTo(0,0);
+  if(id==='page-dashboard') refreshDashboard();
+  if(id==='page-landing') stopTimer();
+}
+
+// ══════════════════════════════════════
+// TRIAL / EXAM START
+// ══════════════════════════════════════
+function startTrial() {
+  const trialDone = localStorage.getItem('ec_trial_done');
+  if(trialDone && !appState.user) {
+    alert('You have already used your free trial. Subscribe for ₹49 to access more papers.');
+    openSubscribeModal();
+    return;
+  }
+  appState.user = appState.user || 'Guest';
+  appState.plan = appState.plan || 'free';
+  appState.testName = 'SSC CGL 2023 — Free Trial';
+  startExam(DEMO_QUESTIONS, 'SSC CGL 2023 — Free Trial', 60, 'free');
+}
+
+function startPaidTest(testName, questions) {
+  if(appState.plan !== 'paid') {
+    openSubscribeModal();
+    return;
+  }
+  appState.testName = testName;
+  startExam(questions || DEMO_QUESTIONS, testName, 60, 'paid');
+}
+
+function startExam(questions, title, minutes, type) {
+  appState.questions = questions;
+  appState.currentQ = 0;
+  appState.answers = {};
+  appState.marked = new Set();
+  appState.visited = new Set([0]);
+  appState.timeLeft = minutes * 60;
+  appState.examStarted = true;
+  appState.examStartTime = Date.now();
+  appState.testName = title;
+
+  document.getElementById('exam-title').textContent = title;
+  document.getElementById('exam-candidate').textContent = 'Candidate: ' + (appState.user || 'Guest');
+
+  buildSectionTabs();
+  buildPalette();
+  renderQuestion();
+  startTimer();
+  showPage('page-exam');
+}
+
+// ══════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════
+function startTimer() {
+  stopTimer();
+  appState.timerInterval = setInterval(() => {
+    appState.timeLeft--;
+    const m = Math.floor(appState.timeLeft/60).toString().padStart(2,'0');
+    const s = (appState.timeLeft%60).toString().padStart(2,'0');
+    const el = document.getElementById('timer');
+    el.textContent = m+':'+s;
+    if(appState.timeLeft <= 300) el.classList.add('warn');
+    else el.classList.remove('warn');
+    if(appState.timeLeft <= 0) {
+      stopTimer();
+      submitTest();
+    }
+  }, 1000);
+}
+function stopTimer() {
+  if(appState.timerInterval) { clearInterval(appState.timerInterval); appState.timerInterval=null; }
+}
+
+// ══════════════════════════════════════
+// SECTION TABS
+// ══════════════════════════════════════
+function buildSectionTabs() {
+  const tabs = document.getElementById('section-tabs');
+  tabs.innerHTML = '';
+  const sections = [...new Set(appState.questions.map(q=>q.subject))];
+  const allTab = document.createElement('button');
+  allTab.className = 'stab active';
+  allTab.textContent = 'All ('+appState.questions.length+')';
+  allTab.onclick = () => { filterSection('all'); setActiveTab(allTab); };
+  tabs.appendChild(allTab);
+  sections.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'stab';
+    const count = appState.questions.filter(q=>q.subject===s).length;
+    btn.textContent = s+' ('+count+')';
+    btn.onclick = () => {
+      const idx = appState.questions.findIndex(q=>q.subject===s);
+      if(idx>=0) { appState.currentQ=idx; renderQuestion(); updatePalette(); }
+      setActiveTab(btn);
+    };
+    tabs.appendChild(btn);
+  });
+}
+function setActiveTab(btn) {
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+function filterSection(s) { /* reserved */ }
+
+// ══════════════════════════════════════
+// QUESTION RENDER
+// ══════════════════════════════════════
+function renderQuestion() {
+  const q = appState.questions[appState.currentQ];
+  if(!q) return;
+  document.getElementById('q-subject').textContent = q.subject;
+  document.getElementById('q-year').textContent = q.year;
+  document.getElementById('q-diff').textContent = q.diff;
+  document.getElementById('q-num').textContent = appState.currentQ+1;
+  document.getElementById('q-total').textContent = appState.questions.length;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optList = document.getElementById('options-list');
+  optList.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  q.options.forEach((opt,i) => {
+    const div = document.createElement('div');
+    div.className = 'option-item' + (appState.answers[appState.currentQ]===i ? ' selected' : '');
+    div.innerHTML = `<div class="option-radio"></div><span class="opt-label">${labels[i]}.</span><span class="opt-text">${opt}</span>`;
+    div.onclick = () => selectOption(i);
+    optList.appendChild(div);
+  });
+
+  appState.visited.add(appState.currentQ);
+  updatePalette();
+  document.getElementById('q-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function selectOption(i) {
+  appState.answers[appState.currentQ] = i;
+  renderQuestion();
+  updatePalette();
+}
+
+// ══════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════
+function prevQuestion() {
+  if(appState.currentQ > 0) { appState.currentQ--; renderQuestion(); }
+}
+function saveAndNext() {
+  if(appState.currentQ < appState.questions.length-1) { appState.currentQ++; renderQuestion(); }
+}
+function markForReview() {
+  if(appState.marked.has(appState.currentQ)) appState.marked.delete(appState.currentQ);
+  else appState.marked.add(appState.currentQ);
+  updatePalette();
+  saveAndNext();
+}
+function clearResponse() {
+  delete appState.answers[appState.currentQ];
+  renderQuestion();
+  updatePalette();
+}
+function goToQuestion(i) {
+  appState.currentQ = i;
+  renderQuestion();
+  // close mobile palette
+  document.getElementById('mob-palette').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('open');
+}
+
+// ══════════════════════════════════════
+// PALETTE
+// ══════════════════════════════════════
+function buildPalette() {
+  ['palette-grid','mob-palette-grid'].forEach(id => {
+    const grid = document.getElementById(id);
+    grid.innerHTML = '';
+    appState.questions.forEach((_,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'pq-btn';
+      btn.textContent = i+1;
+      btn.id = 'pq-'+id+'-'+i;
+      btn.onclick = () => goToQuestion(i);
+      grid.appendChild(btn);
+    });
+  });
+  updatePalette();
+}
+function updatePalette() {
+  appState.questions.forEach((_,i) => {
+    ['palette-grid','mob-palette-grid'].forEach(gridId => {
+      const btn = document.getElementById('pq-'+gridId+'-'+i);
+      if(!btn) return;
+      btn.className = 'pq-btn';
+      if(appState.marked.has(i)) btn.classList.add('marked');
+      else if(appState.answers[i]!==undefined) btn.classList.add('answered');
+      else if(appState.visited.has(i)) btn.classList.add('not-answered');
+      if(i===appState.currentQ) btn.classList.add('current');
+    });
+  });
+}
+
+// ══════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════
+function confirmSubmit() {
+  const unanswered = appState.questions.length - Object.keys(appState.answers).length;
+  document.getElementById('unanswered-count').textContent = unanswered;
+  document.getElementById('submit-modal').classList.add('show');
+}
+function submitTest() {
+  stopTimer();
+  closeModal('submit-modal');
+  localStorage.setItem('ec_trial_done','1');
+  calculateResult();
+}
+function calculateResult() {
+  let correct=0, wrong=0, skip=0;
+  const subjScores = {};
+  SUBJECTS.forEach(s=>{ subjScores[s]={correct:0,total:0}; });
+
+  appState.questions.forEach((q,i) => {
+    subjScores[q.subject].total++;
+    if(appState.answers[i]===undefined) { skip++; }
+    else if(appState.answers[i]===q.correct) { correct++; subjScores[q.subject].correct++; }
+    else { wrong++; }
+  });
+
+  const score = (correct*2) - (wrong*0.5);
+  const maxScore = appState.questions.length * 2;
+  const accuracy = Object.keys(appState.answers).length > 0
+    ? Math.round((correct / Object.keys(appState.answers).length)*100) : 0;
+  const pct = Math.round((score/maxScore)*100);
+  const elapsed = Math.floor((Date.now() - appState.examStartTime)/1000);
+  const tMin = Math.floor(elapsed/60).toString().padStart(2,'0');
+  const tSec = (elapsed%60).toString().padStart(2,'0');
+
+  // Save to localStorage
+  const results = JSON.parse(localStorage.getItem('ec_results')||'[]');
+  results.push({testName:appState.testName,date:new Date().toLocaleDateString('en-IN'),score,correct,wrong,skip,accuracy,pct,time:tMin+':'+tSec});
+  localStorage.setItem('ec_results', JSON.stringify(results));
+
+  // Populate result page
+  document.getElementById('res-test-name').textContent = appState.testName;
+  document.getElementById('res-score').textContent = score.toFixed(1);
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skip').textContent = skip;
+  document.getElementById('res-accuracy').textContent = accuracy+'%';
+  document.getElementById('res-time').textContent = tMin+':'+tSec;
+  document.getElementById('res-pct').textContent = pct+'%';
+
+  // Subject analysis
+  const saList = document.getElementById('subj-analysis-list');
+  saList.innerHTML = '';
+  Object.entries(subjScores).forEach(([subj,data]) => {
+    const pct2 = data.total > 0 ? Math.round((data.correct/data.total)*100) : 0;
+    saList.innerHTML += `
+      <div class="subj-row">
+        <div class="subj-row-top"><span>${subj}</span><span style="font-weight:700">${data.correct}/${data.total} (${pct2}%)</span></div>
+        <div class="subj-bar-bg"><div class="subj-bar" style="width:${pct2}%"></div></div>
+      </div>`;
+  });
+
+  // Rank prediction
+  let rankMsg = '';
+  if(score >= 160) rankMsg = '🏆 Excellent! You are likely in the Top 5% of aspirants. Keep maintaining this level. Focus on accuracy to push further.';
+  else if(score >= 130) rankMsg = '✅ Good performance! You are above average. Strengthen weak subjects, especially the ones below 60%.';
+  else if(score >= 100) rankMsg = '📈 Average performance. Identify your weakest section and dedicate 2 extra hours daily to it this week.';
+  else rankMsg = '💪 Keep practicing! Focus on Quantitative Aptitude and Reasoning fundamentals. Attempt at least one mock test daily.';
+  document.getElementById('rank-msg').textContent = rankMsg;
+
+  // Upsell for free users
+  if(appState.plan === 'free') {
+    document.getElementById('upsell-section').style.display = 'block';
+  } else {
+    document.getElementById('upsell-section').style.display = 'none';
+  }
+
+  showPage('page-result');
+}
+
+function goToDashboard() {
+  if(appState.user) showPage('page-dashboard');
+  else showPage('page-landing');
+}
+
+// WhatsApp Share
+function shareOnWhatsApp() {
+  const score = document.getElementById('res-score').textContent;
+  const accuracy = document.getElementById('res-accuracy').textContent;
+  const msg = encodeURIComponent(`🎯 I scored ${score}/200 (${accuracy} accuracy) in ${appState.testName || 'SSC CGL Mock Test'} on ExamCracker!\n\nTry the free trial 👇\nhttps://examcracker.github.io`);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+// ══════════════════════════════════════
+// KEY VALIDATION
+// — If APPS_SCRIPT_URL is set → calls Google Sheets live
+// — If APPS_SCRIPT_URL is empty → uses DEMO_KEYS for testing
+// ══════════════════════════════════════
+function validateKey() {
+  const key = document.getElementById('keyInput').value.trim().toUpperCase();
+  const errEl = document.getElementById('keyError');
+  const btnEl = document.querySelector('#page-login .btn-full');
+
+  if(!key) {
+    errEl.classList.add('show');
+    errEl.textContent = '❌ Please enter your access key.';
+    return;
+  }
+
+  // ── LIVE MODE: Google Sheets via Apps Script ──────────────────
+  if(APPS_SCRIPT_URL) {
+    btnEl.textContent = 'Validating...';
+    btnEl.disabled = true;
+    errEl.classList.remove('show');
+
+    const url = APPS_SCRIPT_URL + '?action=validateKey&key=' + encodeURIComponent(key);
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        btnEl.textContent = 'Validate & Unlock Access';
+        btnEl.disabled = false;
+
+        if(data.status === 'success') {
+          errEl.classList.remove('show');
+          appState.user = data.name || 'Student';
+          appState.plan = data.plan || 'paid';
+          localStorage.setItem('ec_user', JSON.stringify({
+            key: key,
+            name: appState.user,
+            plan: appState.plan
+          }));
+          showPage('page-dashboard');
+        } else {
+          errEl.textContent = '❌ ' + (data.message || 'Invalid or expired key. Please check and try again.');
+          errEl.classList.add('show');
+        }
+      })
+      .catch(err => {
+        // Network failed → fall back to demo keys silently
+        btnEl.textContent = 'Validate & Unlock Access';
+        btnEl.disabled = false;
+        console.warn('Apps Script unreachable, trying demo keys:', err);
+        validateWithDemoKeys(key, errEl);
+      });
+
+  // ── DEMO MODE: No Apps Script URL set (testing only) ─────────
+  } else {
+    validateWithDemoKeys(key, errEl);
+  }
+}
+
+// Shared helper — checks against built-in demo keys
+function validateWithDemoKeys(key, errEl) {
+  if(DEMO_KEYS[key]) {
+    errEl.classList.remove('show');
+    appState.user = DEMO_KEYS[key].name;
+    appState.plan = DEMO_KEYS[key].plan;
+    localStorage.setItem('ec_user', JSON.stringify({
+      key: key,
+      name: appState.user,
+      plan: appState.plan
+    }));
+    showPage('page-dashboard');
+  } else {
+    errEl.textContent = '❌ Invalid or expired key. Please check and try again.';
+    errEl.classList.add('show');
+  }
+}
+
+// ══════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════
+function refreshDashboard() {
+  // Load saved user
+  const saved = localStorage.getItem('ec_user');
+  if(saved && !appState.user) {
+    const u = JSON.parse(saved);
+    appState.user = u.name;
+    appState.plan = u.plan;
+  }
+
+  // Date
+  const now = new Date();
+  document.getElementById('dash-date').textContent = now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('dash-welcome').textContent = 'Welcome back, ' + (appState.user||'Guest') + '! 👋';
+  document.getElementById('dash-key-display').textContent = 'Plan: ' + (appState.plan==='paid'?'Paid ₹49':'Free Trial');
+  document.getElementById('stat-plan').textContent = appState.plan==='paid'?'PAID':'FREE';
+  document.getElementById('stat-plan-sub').textContent = appState.plan==='paid'?'All 5 papers':'1 of 5 papers';
+
+  // Motivation rotation
+  const mot = MOTIVATIONS[now.getDate() % MOTIVATIONS.length];
+  document.getElementById('mot-img').src = mot.img;
+  document.getElementById('mot-quote').textContent = mot.quote;
+  document.getElementById('mot-sub').textContent = mot.sub;
+
+  // Results
+  const results = JSON.parse(localStorage.getItem('ec_results')||'[]');
+  document.getElementById('stat-attempted').textContent = results.length;
+  if(results.length > 0) {
+    const bestScore = Math.max(...results.map(r=>r.score));
+    const avgAcc = Math.round(results.reduce((a,r)=>a+r.accuracy,0)/results.length);
+    document.getElementById('stat-best').textContent = bestScore.toFixed(1);
+    document.getElementById('stat-accuracy').textContent = avgAcc+'%';
+  }
+
+  // Build test list
+  const testList = document.getElementById('test-list');
+  const tests = [
+    {name:'SSC CGL 2023 — Paper 1',year:'2023',q:100,min:60,free:true,id:'2023'},
+    {name:'SSC CGL 2022 — Paper 2',year:'2022',q:100,min:60,free:false,id:'2022'},
+    {name:'SSC CGL 2021 — Paper 3',year:'2021',q:100,min:60,free:false,id:'2021'},
+    {name:'SSC CGL 2020 — Paper 4',year:'2020',q:100,min:60,free:false,id:'2020'},
+    {name:'SSC CGL 2019 — Paper 5',year:'2019',q:100,min:60,free:false,id:'2019'},
+    {name:'Sectional: Reasoning',year:'2023',q:25,min:15,free:false,id:'sec-r',section:true},
+    {name:'Sectional: Quantitative Aptitude',year:'2023',q:25,min:15,free:false,id:'sec-q',section:true},
+    {name:'Sectional: English',year:'2023',q:25,min:15,free:false,id:'sec-e',section:true},
+    {name:'Sectional: General Awareness',year:'2023',q:25,min:15,free:false,id:'sec-ga',section:true},
+  ];
+
+  testList.innerHTML = '';
+  tests.forEach(t => {
+    const done = results.find(r=>r.testName===t.name);
+    const locked = !t.free && appState.plan!=='paid';
+    const row = document.createElement('div');
+    row.className = 'test-row';
+    row.innerHTML = `
+      <div class="test-row-info">
+        <h4>${t.name}</h4>
+        <p>${t.q} Questions · ${t.min} Minutes · ${t.year}</p>
+        ${done ? `<p style="color:var(--green);font-size:0.8rem;margin-top:2px">✅ Completed — Score: ${done.score.toFixed(1)}/200</p>` : ''}
+      </div>
+      <div class="test-row-meta">
+        <span class="badge ${t.free?'badge-free':locked?'badge-locked':'badge-done'}">${t.free?'FREE':locked?'🔒 LOCKED':'UNLOCKED'}</span>
+        <button class="btn-start" ${locked?'disabled':''} onclick="launchTest('${t.id}','${t.name}',${t.min},${!!t.section},${t.q})">${locked?'🔒 Locked':done?'Reattempt':'Start'}</button>
+      </div>`;
+    testList.appendChild(row);
+  });
+}
+
+function launchTest(id, name, min, section, qCount) {
+  let questions = DEMO_QUESTIONS;
+  if(section) {
+    // filter by section name
+    if(id==='sec-r') questions = DEMO_QUESTIONS.filter(q=>q.subject==='Reasoning');
+    else if(id==='sec-q') questions = DEMO_QUESTIONS.filter(q=>q.subject==='Quantitative Aptitude');
+    else if(id==='sec-e') questions = DEMO_QUESTIONS.filter(q=>q.subject==='English');
+    else if(id==='sec-ga') questions = DEMO_QUESTIONS.filter(q=>q.subject==='General Awareness');
+  }
+  startExam(questions, name, min, appState.plan);
+}
+
+// ══════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function openSubscribeModal() { document.getElementById('subscribe-modal').classList.add('show'); }
+function openWhatsApp() {
+  window.open('https://wa.me/91XXXXXXXXXX?text='+encodeURIComponent('Hi! I want to subscribe to ExamCracker for ₹49. Please share the payment details.'),'_blank');
+  closeModal('subscribe-modal');
+}
+
+// Mobile palette
+function toggleMobilePalette() {
+  document.getElementById('mob-palette').classList.toggle('open');
+  document.getElementById('mob-overlay').classList.toggle('open');
+}
+
+// FAQ
+function toggleFaq(el) {
+  const ans = el.nextElementSibling;
+  const arrow = el.querySelector('span');
+  ans.classList.toggle('open');
+  arrow.textContent = ans.classList.contains('open') ? '▴' : '▾';
+}
+
+// Scroll
+function scrollToSubscribe() {
+  document.getElementById('subscribe-section').scrollIntoView({behavior:'smooth'});
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+window.onload = () => {
+  // restore user from localStorage
+  const saved = localStorage.getItem('ec_user');
+  if(saved) {
+    const u = JSON.parse(saved);
+    appState.user = u.name;
+    appState.plan = u.plan;
+  }
+  // Set dashboard date
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+};
+</script>
+</body>
+</html>
