@@ -762,7 +762,7 @@ footer .powered{font-size:.75rem;margin-top:6px;opacity:.6;}
 // ══════════════════════════════════════
 // CONFIG — CHANGE THESE BEFORE GOING LIVE
 // ══════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCocmSbFqVDfIBn7SWKYV0bshiugL57tOhQogWsDE2zvPQ65V2VPt8AOPoqnVr4uFV/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZ962Fh0Dke4neKBa0mn8HrENNePz20Gf3B-g6neZFmA6rGxdjgJAqkrwC0w6GOkuJ/exec';
 const WA_NUMBER = '+91XXXXXXXXXX'; // ← Replace with your WhatsApp number
 const MAX_ATTEMPTS = 3;
 const SECTIONS = ['Reasoning','Quantitative Aptitude','English Comprehension','General Awareness'];
@@ -886,10 +886,9 @@ function validateKey(){
 
 // ══════════════════════════════════════
 // TRIAL — loads real 2024 paper from sheet (Feature 8)
+// Free trial — unlimited attempts, no restriction
 // ══════════════════════════════════════
 function startTrial(){
-  const done=localStorage.getItem('ec_trial_done');
-  if(done){ alert('You have already used your free trial. Subscribe for ₹49 to access more papers.'); openSubModal(); return; }
   S.user=S.user||'Guest'; S.plan=S.plan||'free';
   loadAndStartExam('SSC_CGL_2024','SSC CGL 2024 — Free Trial',true);
 }
@@ -1206,7 +1205,6 @@ function submitTest(){
   stopTimer(); stopTabDetection();
   closeModal('submit-modal');
   S.examActive=false;
-  if(!localStorage.getItem('ec_trial_done')&&S.plan==='free') localStorage.setItem('ec_trial_done','1');
   calcResult();
 }
 
